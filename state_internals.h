@@ -4,10 +4,10 @@ class NothingState: public State {
 
 enum Event {
   NONE,
-  STOPWATCH_UP, STOPWATCH_DOWN,
-  TIMER_UP, TIMER_DOWN,
-  GO_UP, GO_DOWN,
-  SET_UP, SET_DOWN,
+  STOPWATCH_RELEASE, STOPWATCH_PRESS,
+  TIMER_RELEASE, TIMER_PRESS,
+  GO_RELEASE, GO_PRESS,
+  SET_RELEASE, SET_PRESS,
   CLOCKWISE, ANTICLOCKWISE,
   TICK
 };
@@ -53,54 +53,54 @@ void processEvent(const Event e) {
     case NONE:
       break;
       
-    case STOPWATCH_UP:
+    case STOPWATCH_RELEASE:
 #ifdef DEBUG
-      Serial.println("STOPWATCH_UP");
+      Serial.println("STOPWATCH_RELEASE");
 #endif
       currentState.onStopWatchRelease();
       break;
-    case STOPWATCH_DOWN:
+    case STOPWATCH_PRESS:
 #ifdef DEBUG
-      Serial.println("STOPWATCH_DOWN");
+      Serial.println("STOPWATCH_PRESS");
 #endif
       currentState.onStopWatchPress();
       break;
 
-    case TIMER_UP:
+    case TIMER_RELEASE:
 #ifdef DEBUG
-      Serial.println("TIMER_UP");
+      Serial.println("TIMER_RELEASE");
 #endif
       currentState.onTimerRelease();
       break;
-    case TIMER_DOWN:
+    case TIMER_PRESS:
 #ifdef DEBUG
-      Serial.println("TIMER_DOWN");
+      Serial.println("TIMER_PRESS");
 #endif
       currentState.onTimerPress();
       break;
 
-    case GO_UP:
+    case GO_RELEASE:
 #ifdef DEBUG
-      Serial.println("GO_UP");
+      Serial.println("GO_RELEASE");
 #endif
       currentState.onGoRelease();
       break;
-    case GO_DOWN:
+    case GO_PRESS:
 #ifdef DEBUG
-      Serial.println("GO_DOWN");
+      Serial.println("GO_PRESS");
 #endif
       currentState.onGoPress();
       break;
 
-    case SET_UP:
+    case SET_RELEASE:
 #ifdef DEBUG
-      Serial.println("SET_UP");
+      Serial.println("SET_RELEASE");
 #endif
       currentState.onSetRelease();
       break;
-    case SET_DOWN:
+    case SET_PRESS:
 #ifdef DEBUG
-      Serial.println("SET_DOWN");
+      Serial.println("SET_PRESS");
 #endif
       currentState.onSetPress();
       break;
