@@ -10,14 +10,14 @@ class State {
 
   
   // Override these to process individual events
-  virtual void onStopWatchUp() {};
-  virtual void onStopWatchDown() {};
-  virtual void onTimerUp() {};
-  virtual void onTimerDown() {};
-  virtual void onGoUp() {};
-  virtual void onGoDown() {};
-  virtual void onSetUp() {};
-  virtual void onSetDown() {};
+  virtual void onStopWatchRelease() {};
+  virtual void onStopWatchPress() {};
+  virtual void onTimerRelease() {};
+  virtual void onTimerPress() {};
+  virtual void onGoRelease() {};
+  virtual void onGoPress() {};
+  virtual void onSetRelease() {};
+  virtual void onSetPress() {};
   virtual void onClockwise() {};
   virtual void onAntiClockwise() {};
   virtual void onTick() {};
@@ -68,4 +68,3 @@ extern void stopTicking();
 
 // Beeeeep!
 extern void beep();
-

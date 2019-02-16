@@ -57,52 +57,52 @@ void processEvent(const Event e) {
 #ifdef DEBUG
       Serial.println("STOPWATCH_UP");
 #endif
-      currentState.onStopWatchUp();
+      currentState.onStopWatchRelease();
       break;
     case STOPWATCH_DOWN:
 #ifdef DEBUG
       Serial.println("STOPWATCH_DOWN");
 #endif
-      currentState.onStopWatchDown();
+      currentState.onStopWatchPress();
       break;
 
     case TIMER_UP:
 #ifdef DEBUG
       Serial.println("TIMER_UP");
 #endif
-      currentState.onTimerUp();
+      currentState.onTimerRelease();
       break;
     case TIMER_DOWN:
 #ifdef DEBUG
       Serial.println("TIMER_DOWN");
 #endif
-      currentState.onTimerDown();
+      currentState.onTimerPress();
       break;
 
     case GO_UP:
 #ifdef DEBUG
       Serial.println("GO_UP");
 #endif
-      currentState.onGoUp();
+      currentState.onGoRelease();
       break;
     case GO_DOWN:
 #ifdef DEBUG
       Serial.println("GO_DOWN");
 #endif
-      currentState.onGoDown();
+      currentState.onGoPress();
       break;
 
     case SET_UP:
 #ifdef DEBUG
       Serial.println("SET_UP");
 #endif
-      currentState.onSetUp();
+      currentState.onSetRelease();
       break;
     case SET_DOWN:
 #ifdef DEBUG
       Serial.println("SET_DOWN");
 #endif
-      currentState.onSetDown();
+      currentState.onSetPress();
       break;
 
     case CLOCKWISE:
@@ -202,5 +202,3 @@ void stopTicking() {
 void beep() {
   // TODO 
 }
-
-
