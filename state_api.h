@@ -4,12 +4,12 @@ class State {
   public:
   State() {
   }
-  
+
   virtual void enter() {}; // Override this to provide entry behaviour for this state
   virtual void exit() {};  // Override this to provide exit behaviour for this state
 
   
-  // Override these to process individual events
+  // Override these to process individual events...
   virtual void onStopWatchRelease() {};
   virtual void onStopWatchPress() {};
   virtual void onTimerRelease() {};
@@ -21,6 +21,9 @@ class State {
   virtual void onClockwise() {};
   virtual void onAntiClockwise() {};
   virtual void onTick() {};
+  
+  // References to transition states....
+//  State &stopWatchReleaseState[sizeof(Event)];
 };
 
 // You must do this in your setup() to get everything started..
@@ -61,6 +64,20 @@ const int SecondsFlashing = 1;
 const int MinutesFlashing = 2;
 const int HoursFlashing = 4;
 extern void flashTimeComponent(const int component);
+
+// Increment/decrement hours/minutes/seconds respecting bounds - you can't decrement hours below 0 or increment above 23
+// similar bounds [00 .. 59] for minutes/seconds. inc/dec functions display the new time.
+extern void incHours();
+extern void decHours();
+extern int getHours(); // What's the current hours setting [00 .. 23]
+
+extern void incMinutes();
+extern void decMinutes();
+extern int getMinutes();
+
+extern void incSeconds();
+extern void decSeconds();
+extern int getSeconds();
 
 // Start or stop getting tick events once per second (so you can tickTimeUp/Down).
 extern void startTicking();

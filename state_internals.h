@@ -12,8 +12,8 @@ enum Event {
   TICK
 };
 
-
-State currentState = NothingState();
+State nothing = NothingState();
+State currentState = nothing;
 bool flashState = false;
 int ledsToFlash = NoLEDs;
 int timeComponentsToFlash = NoFlashing;
@@ -189,6 +189,60 @@ bool tickTimeDown() {
 
 void flashTimeComponent(const int component) {
   timeComponentsToFlash = component;
+}
+
+void incHours() {
+  if (hours < 23) {
+    hours++;
+    displayTime();
+  }
+}
+
+void decHours() {
+  if (hours > 0) {
+    hours--;
+    displayTime();
+  }
+}
+
+int getHours() {
+  return hours;
+}
+
+void incMinutes() {
+  if (minutes < 59) {
+    minutes++;
+    displayTime();
+  }
+}
+
+void decMinutes() {
+  if (minutes > 0) {
+    minutes--;
+    displayTime();
+  }
+}
+
+int getMinutes() {
+  return minutes;
+}
+
+void incSeconds() {
+  if (seconds < 59) {
+    seconds++;
+    displayTime();
+  }
+}
+
+void decSeconds() {
+  if (seconds > 0) {
+    seconds++;
+    displayTime();
+  }
+}
+
+int getSeconds() {
+  return seconds;
 }
 
 void startTicking() {
