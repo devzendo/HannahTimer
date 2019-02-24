@@ -21,9 +21,6 @@ class State {
   virtual void onClockwise() {};
   virtual void onAntiClockwise() {};
   virtual void onTick() {};
-  
-  // References to transition states....
-//  State &stopWatchReleaseState[sizeof(Event)];
 };
 
 // You must do this in your setup() to get everything started..
