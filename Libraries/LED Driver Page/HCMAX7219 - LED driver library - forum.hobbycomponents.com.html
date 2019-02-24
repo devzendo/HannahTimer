@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-gb"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>HCMAX7219 - LED driver library - forum.hobbycomponents.com</title>
+
+
+	<link rel="canonical" href="https://forum.hobbycomponents.com/viewtopic.php?t=1794">
+
+<!--
+	phpBB style name: Flat Style
+	Based on style:   prosilver (this is the default phpBB3 style)
+	Original author:  Tom Beddard ( http://www.subBlue.com/ )
+	Modified by:      Ian Bradley
+-->
+
+<link href="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/font-awesome.css" rel="stylesheet">
+<link href="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/stylesheet_002.css" rel="stylesheet">
+<link href="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/stylesheet.css" rel="stylesheet">
+
+
+
+
+<!--[if lte IE 9]>
+	<link href="./styles/flat-style/theme/tweaks.css?assets_version=12" rel="stylesheet">
+<![endif]-->
+
+
+<!--[if gte IE 11]>
+.codebox_plus_wrap li
+{
+	display: block;
+}
+
+.codebox_plus_wrap li>div
+{
+	display: inline;
+}
+<![endif]-->
+
+
+<link href="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/style.css" rel="stylesheet" type="text/css" media="screen">
+
+
+<script async="" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/analytics.js"></script><script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-30689745-2', 'auto');
+	ga('set', 'userId', 11869);
+	ga('send', 'pageview');
+</script><style>@media print {#ghostery-purple-box {display:none !important}}</style>
+
+</head>
+<body id="phpbb" class="section-viewtopic ltr hasjs hastouch">
+
+
+<div id="wrap" class="wrap">
+	<a id="top" class="top-anchor" accesskey="t"></a>
+	<div id="page-header">
+		<div class="headerbar" role="banner">
+					<div class="inner">
+
+			<div id="site-description">
+				<a id="logo" class="logo" href="http://forum.hobbycomponents.com/index.php" title="Board index"><span class="site_logo"></span></a>
+				<div class="site-description">
+					<h1>forum.hobbycomponents.com</h1>
+					<p>Support forum for Hobby Components products</p>
+					<p class="skiplink"><a href="#start_here">Skip to content</a></p>
+				</div>
+			</div>
+
+			</div>
+					</div>
+				<div class="navbar navbar-top" role="navigation">
+	<div class="inner">
+
+	<ul id="nav-main" class="nav-main linklist" role="menubar">
+
+		<li id="quick-links" class="quick-links dropdown-container responsive-menu" data-skip-responsive="true">
+			<a href="#" class="dropdown-trigger dropdown-toggle">
+				<i class="icon fa-bars fa-fw" aria-hidden="true"></i><span>Quick links</span>
+			</a>
+			<div class="dropdown">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents" role="menu">
+					
+											<li class="separator"></li>
+													<li>
+								<a href="http://forum.hobbycomponents.com/search.php?search_id=egosearch" role="menuitem">
+									<i class="icon fa-file fa-fw" aria-hidden="true"></i><span>Your posts</span>
+								</a>
+							</li>
+																			<li>
+								<a href="http://forum.hobbycomponents.com/search.php?search_id=newposts" role="menuitem">
+									<i class="icon fa-file fa-fw" aria-hidden="true"></i><span>New posts</span>
+								</a>
+							</li>
+																			<li>
+								<a href="http://forum.hobbycomponents.com/search.php?search_id=unreadposts" role="menuitem">
+									<i class="icon fa-file fa-fw" aria-hidden="true"></i><span>Unread posts</span>
+								</a>
+							</li>
+													<li>
+								<a href="http://forum.hobbycomponents.com/search.php?search_id=unanswered" role="menuitem">
+									<i class="icon fa-file fa-fw" aria-hidden="true"></i><span>Unanswered topics</span>
+								</a>
+							</li>
+							<li>
+								<a href="http://forum.hobbycomponents.com/search.php?search_id=active_topics" role="menuitem">
+									<i class="icon fa-file fa-fw" aria-hidden="true"></i><span>Active topics</span>
+								</a>
+							</li>
+							<li class="separator"></li>
+							<li>
+								<a href="http://forum.hobbycomponents.com/search.php" role="menuitem">
+									<i class="icon fa-search fa-fw" aria-hidden="true"></i><span>Search</span>
+								</a>
+							</li>
+					
+										
+											<li class="separator"></li>
+													<li>
+								<a href="http://forum.hobbycomponents.com/memberlist.php" role="menuitem">
+									<i class="icon fa-group fa-fw" aria-hidden="true"></i><span>Members</span>
+								</a>
+							</li>
+																			<li>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=team" role="menuitem">
+									<i class="icon fa-shield fa-fw" aria-hidden="true"></i><span>The team</span>
+								</a>
+							</li>
+																<li class="separator"></li>
+
+									</ul>
+			</div>
+		</li>
+
+				<li data-last-responsive="true">
+			<a href="http://forum.hobbycomponents.com/help/faq" rel="help" title="Frequently Asked Questions" role="menuitem">
+				<i class="icon fa-question-circle fa-fw" aria-hidden="true"></i><span>FAQ</span>
+			</a>
+		</li>
+						
+					<li id="username_logged_in" class="rightside " data-skip-responsive="true">
+						<div class="header-profile dropdown-container">
+				<a href="http://forum.hobbycomponents.com/ucp.php" class="header-avatar dropdown-trigger dropdown-toggle"> <span class="username">hannahgumbley1</span></a>
+				<div class="dropdown">
+					<div class="pointer"><div class="pointer-inner"></div></div>
+					<ul class="dropdown-contents" role="menu">
+						
+					
+						<li>
+							<a href="http://forum.hobbycomponents.com/ucp.php" title="User Control Panel" role="menuitem">
+								<i class="icon fa-sliders fa-fw" aria-hidden="true"></i><span>User Control Panel</span>
+							</a>
+						</li>
+						<li>
+							<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=11869" title="Profile" role="menuitem">
+								<i class="icon fa-user fa-fw" aria-hidden="true"></i><span>Profile</span>
+							</a>
+						</li>
+
+						
+						<li class="separator"></li>
+						<li>
+							<a href="http://forum.hobbycomponents.com/ucp.php?mode=logout&amp;sid=9edad40b9c2214bf6724163ac2234e1a" title="Logout" accesskey="x" role="menuitem">
+								<i class="icon fa-power-off fa-fw" aria-hidden="true"></i><span>Logout</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+					</li>
+							<li class="dropdown-container dropdown-right rightside" data-skip-responsive="true">
+				<a href="http://forum.hobbycomponents.com/ucp.php?i=ucp_notifications" id="notification_list_button" class="dropdown-trigger dropdown-toggle">
+					<i class="icon fa-bell fa-fw" aria-hidden="true"></i><span>Notifications </span><strong class="badge hidden">0</strong>
+				</a>
+				<div id="notification_list" class="dropdown dropdown-extended notification_list">
+	<div class="pointer"><div class="pointer-inner"></div></div>
+	<div class="dropdown-contents">
+		<div class="header">
+			Notifications
+			<span class="header_settings">
+				<a href="http://forum.hobbycomponents.com/ucp.php?i=ucp_notifications&amp;mode=notification_options">Settings</a>
+							</span>
+		</div>
+
+		<ul>
+							<li class="no_notifications">
+					You have no notifications
+				</li>
+								</ul>
+
+		<div class="footer">
+			<a href="http://forum.hobbycomponents.com/ucp.php?i=ucp_notifications"><span>See All</span></a>
+		</div>
+	</div>
+</div>
+			</li>
+						</ul>
+    </div>
+</div>
+
+<div class="navbar" role="navigation">
+	<div class="inner">
+	<ul id="nav-breadcrumbs" class="nav-breadcrumbs linklist navlinks" role="menubar">
+						<li class="breadcrumbs" style="max-width: 909px;">
+										<span class="crumb" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope=""><a href="http://forum.hobbycomponents.com/index.php" itemprop="url" accesskey="h" data-navbar-reference="index" title="Board index"><i class="icon fa-home fa-fw"></i><span itemprop="title">Board index</span></a></span>
+
+											<span class="crumb" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-forum-id="57"><a href="http://forum.hobbycomponents.com/viewforum.php?f=57" itemprop="url" title="Software"><span itemprop="title">Software</span></a></span>
+															<span class="crumb" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-forum-id="58"><a href="http://forum.hobbycomponents.com/viewforum.php?f=58" itemprop="url" title="Arduino"><span itemprop="title">Arduino</span></a></span>
+												</li>
+		
+							<li id="search-box" class="rightside search-box responsive-hide" role="search">
+				<form action="./search.php" method="get" id="search">
+				<fieldset>
+					<input name="keywords" id="keywords" type="search" maxlength="128" title="Search for keywords" class="inputbox search tiny" size="20" placeholder="Search…">
+					<button class="button button-search" type="submit" title="Search">
+						<i class="icon fa-search fa-fw" aria-hidden="true"></i><span class="sr-only">Search</span>
+					</button>
+					<a href="http://forum.hobbycomponents.com/search.php" class="button button-search-end" title="Advanced search">
+						<i class="icon fa-cog fa-fw" aria-hidden="true"></i><span class="sr-only">Advanced search</span>
+					</a>
+					
+				</fieldset>
+				</form>
+			</li>
+
+			<li class="rightside responsive-search">
+				<a href="http://forum.hobbycomponents.com/search.php" title="View the advanced search options" role="menuitem">
+					<i class="icon fa-search fa-fw" aria-hidden="true"></i><span class="sr-only">Search</span>
+				</a>
+			</li>
+					</ul>
+
+	</div>
+</div>
+	</div>
+
+	
+	<a id="start_here" class="anchor"></a>
+	<div id="page-body" class="page-body" role="main">
+		
+		
+<h2 class="topic-title"><a href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794">HCMAX7219 - LED driver library</a></h2>
+<!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
+<div style="display: none !important;">Useful guides, libraries, and example sketches to support our Arduino based products.<br></div>
+
+
+<div class="action-bar bar-top">
+	
+			<a href="http://forum.hobbycomponents.com/posting.php?mode=reply&amp;f=58&amp;t=1794" class="button" title="Post a reply">
+							<span>Post Reply</span> <i class="icon fa-reply fa-fw" aria-hidden="true"></i>
+					</a>
+	
+			<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Topic tools" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+			<i class="icon fa-wrench fa-fw" aria-hidden="true"></i>
+			<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+		</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+													<li>
+						<a href="http://forum.hobbycomponents.com/viewtopic.php?uid=11869&amp;f=58&amp;t=1794&amp;watch=topic&amp;start=0&amp;hash=a6075133" class="watch-topic-link" title="Subscribe topic" data-ajax="toggle_link" data-toggle-class="icon fa-square-o fa-fw" data-toggle-text="Unsubscribe topic" data-toggle-url="./viewtopic.php?uid=11869&amp;f=58&amp;t=1794&amp;unwatch=topic&amp;start=0&amp;hash=a6075133" data-update-all=".watch-topic-link">
+							<i class="icon fa-check-square-o fa-fw" aria-hidden="true"></i><span>Subscribe topic</span>
+						</a>
+					</li>
+													<li>
+						<a href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;bookmark=1&amp;hash=a6075133" class="bookmark-link" title="Bookmark topic" data-ajax="alt_text" data-alt-text="Remove from bookmarks" data-update-all=".bookmark-link">
+							<i class="icon fa-bookmark-o fa-fw" aria-hidden="true"></i><span>Bookmark topic</span>
+						</a>
+					</li>
+																<li>
+					<a href="http://forum.hobbycomponents.com/memberlist.php?mode=email&amp;t=1794" title="Email topic">
+						<i class="icon fa-envelope-o fa-fw" aria-hidden="true"></i><span>Email topic</span>
+					</a>
+				</li>
+												<li>
+					<a href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;view=print" title="Print view" accesskey="p">
+						<i class="icon fa-print fa-fw" aria-hidden="true"></i><span>Print view</span>
+					</a>
+				</li>
+											</ul>
+		</div>
+	</div>
+	
+			<div class="search-box" role="search">
+			<form method="get" id="topic-search" action="./search.php">
+			<fieldset>
+				<input class="inputbox search tiny" type="search" name="keywords" id="search_keywords" size="20" placeholder="Search this topic…">
+				<button class="button button-search" type="submit" title="Search">
+					<i class="icon fa-search fa-fw" aria-hidden="true"></i><span class="sr-only">Search</span>
+				</button>
+				<a href="http://forum.hobbycomponents.com/search.php" class="button button-search-end" title="Advanced search">
+					<i class="icon fa-cog fa-fw" aria-hidden="true"></i><span class="sr-only">Advanced search</span>
+				</a>
+				<input type="hidden" name="t" value="1794">
+<input type="hidden" name="sf" value="msgonly">
+
+			</fieldset>
+			</form>
+		</div>
+	
+			<div class="pagination">
+			43 posts
+							<ul>
+		<li class="active"><span>1</span></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=10" role="button">2</a></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=20" role="button">3</a></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=30" role="button">4</a></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=40" role="button">5</a></li>
+				<li class="arrow next"><a class="button button-icon-only" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=10" rel="next" role="button"><i class="icon fa-chevron-right fa-fw" aria-hidden="true"></i><span class="sr-only">Next</span></a></li>
+	</ul>
+					</div>
+		</div>
+
+
+
+
+			<div id="p4248" class="post has-profile bg2 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4248">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=2" style="color: #AA0000;" class="username-coloured">admin</a>							</dt>
+
+						<dd class="profile-rank">Site Admin</dd>			
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=2&amp;sr=posts">731</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Sun Aug 05, 2012 5:02 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content4248">
+
+						<h3 class="first"><a href="#p4248">HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/4248/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=4248" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=4248#p4248" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=2" style="color: #AA0000;" class="username-coloured">admin</a></strong> » </span>Thu Mar 12, 2015 4:17 pm
+			</p>
+			
+			
+			
+			<div class="content"><img src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/HCMODU0082_2_800_600.JPG" class="postimage" alt="Image"><br>
+<br>
+<img src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/Description.png" class="postimage" alt="Image"><br>
+<br>
+This Arduino library is written to work with the MAX7219 LED driver IC. 
+The library will allow you to control one or more of these IC's that 
+have been serially connected together. <br>
+<br>
+The library also currently supports the 8 digit 7 segment display module
+ (HCMODU0082) and provides compatible commands and an alphanumeric 
+character set. Future updates are planned to include other MAX7219 based
+ products.<br>
+<br>
+You will need to download (please log in to download the library) and 
+unzip this library to the Arduino development environments library area<br>
+<br>
+On Windows: <br>
+My Documents\Arduino\libraries\<br>
+<br>
+On Mac: <br>
+Documents/Arduino/libraries/<br>
+or similarly for Linux.<br>
+<br>
+<br>
+To use the library just include the HCMAX7219.h header file and create an instance of the library. E.g:<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>#include &lt;HCMAX7219.h&gt;
+HCMAX7219 HCMAX7219(LOAD);</code></pre></div>
+
+Where:<br>
+LOAD is the number for the digital pin connected to the first MAX7219 's LOAD (CS) pin.<br>
+<br>
+<br>
+<strong class="text-strong">The following functions are available with this library:</strong><br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Init();</code></pre></div>
+
+Initialises the library.  This function should be executed once before any other library function.<br>
+<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Write(Address, Data, Driver)</code></pre></div>
+
+Writes to a register within the one of the connected drivers where:<br>
+<br>
+Address is the address of the register to write to and can be one of the following pre-defined values:<br>
+<br>
+MAX7219NOOP<br>
+MAX7219DIGIT1<br>
+MAX7219DIGIT2<br>
+MAX7219DIGIT3<br>
+MAX7219DIGIT4<br>
+MAX7219DIGIT5<br>
+MAX7219DIGIT6<br>
+MAX7219DIGIT7<br>
+MAX7219DIGIT8<br>
+MAX7219DECODE<br>
+MAX7219INTESITY<br>
+MAX7219SCANLIMIT<br>
+MAX7219SHUTDOWN<br>
+MAX7219TEST<br>
+<br>
+Data is a value of type Byte to write to the register.<br>
+Driver is a value of type Byte which driver in the chain to access. 0 being the first.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Shutdown(Mode, Driver)</code></pre></div>
+
+Puts the driver into low power shutdown mode where:<br>
+<br>
+Mode is of type boolean and can be one of the following pre-defined values:<br>
+MAX7219OFF<br>
+MAX7219ON<br>
+<br>
+Driver is a value of type Byte which driver in the chain to access. 0 being the first.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.TestMode(Mode, Driver)</code></pre></div>
+
+Puts the driver into its test mode and turns all driven LED's on:<br>
+<br>
+Mode is of type boolean and can be one of the following pre-defined values:<br>
+TESTMODEOFF<br>
+TESTMODEON<br>
+<br>
+Driver is a value of type Byte which driver in the chain to access. 0 being the first.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.SevenSegDigits(Digits, Driver)</code></pre></div>
+
+Sets the number of digits to drive in each driver. Valid values for Digits are:<br>
+0 (Digit 0)<br>
+1 (Digit 0 &amp; 1)<br>
+2 (Digit 0, 1 &amp; 2)<br>
+3 (Digit 0, 1, 2, &amp; 3)<br>
+4 (Digit 0, 1, 2, 3 &amp; 4)<br>
+5 (Digit 0, 1, 2, 3, 4 &amp; 5)<br>
+6 (Digit 0, 1, 2, 3, 4, 5, &amp; 6)<br>
+7 (Digit 0, 1, 2, 3, 4, 5,, 6 &amp; 7)<br>
+<br>
+Driver is a value of type Byte which driver in the chain to access. 0 being the first.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Intensity(Level, Driver)</code></pre></div>
+
+Sets the intensity of the LED's. Valid values for Level are 0 (min) to 0x0F (max)<br>
+<br>
+Driver is a value of type Byte which driver in the chain to access. 0 being the first.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Clear()</code></pre></div>
+
+Clears the contents of the output buffer. Executing the refresh library 
+command after a clear command will write the empty buffer to the driver 
+thereby clearing (turning off) all the LED's.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Refresh()</code></pre></div>
+
+Update all connected drivers with the contents of the output buffer.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.DisplayBuffer[]</code></pre></div>
+
+An array of type Byte holding the display buffer which is written to the
+ driver(s) digit registers when the refresh() command is executed. The 
+size of the buffer is 8 x the number of drivers (default 8). The fist 8 
+bytes (0 to 7) represent the digit registers in the first driver. The 
+second group of 8 bytes (8 to 15) represent the digit registers in the 
+second driver etc. <br>
+<br>
+<br>
+<strong class="text-strong">Setting the number off drivers:</strong><br>
+<br>
+By default the library assumes that you only have one driver connected. 
+If you are connecting multiple drivers together you can set the number 
+of drivers you have by changing the following line in the HCMAX7219.h 
+header file:<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>#define NUMBEROFDRIVERS 1</code></pre></div>
+
+<br>
+<strong class="text-strong">8 digit 7 segment display module (HCMODU0082) specific commands:</strong><br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.print7Seg("TEXT STRING", Offset)</code></pre></div>
+
+Writes a string of text to the output buffer at position starting at 
+Offset. A value of 1 for offset start the text at digit 1 on the display
+ of driver 1, 8 will start the text from digit 8 of driver one, 9 will 
+start the text from digit 1 of driver 2 etc. Offset numbers beyond the 
+maximum digit number can be set to allow for text to be positioned 
+beyond the ends of the display.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.print7Seg(Value, DP, Digits, Offset)</code></pre></div>
+
+Prints a floating point number to the display starting at the current cursor coordinate where:<br>
+   Value is the number to print. <br>
+	   <br>
+   DP specifies the number of decimal places to display the floating point number to.<br>
+<br>
+   Digits is the total number of digits to display. If the number is smaller than the specified number of digits it will pad <br>
+   the left side of the number with spaces.<br>
+   <br>
+   Offset is the column position from where the value will start from. Valid values are from 0 to 65535 (Uno/Nano etc) where:<br>
+	   1 = right most column<br>
+	   8 = left most column<br>
+	   <br>
+	   Values above 8 will start the text at a column beyond the left most column.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.print7Seg(Value, Offset)</code></pre></div>
+
+Writes a positive or negative integer to the display. If negative a '-' 
+sign will be appended to the beginning of the number. See above of 
+description of Offset.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.print7Seg(Value, Decimal_Position, Offset)</code></pre></div>
+
+Writes a positive or negative integer to the display. If negative a '-' sign will be appended to the beginning of the number. <br>
+Decimal_Position allows the option to specify the position of a decimal point. <br>
+See above of description of Offset.<br>
+<br>
+<br>
+<br>
+<strong class="text-strong">8x8 serial dot matrix module (HCOPTO0014) specific commands:</strong><br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.printMatrix("TEXT STRING", Offset)</code></pre></div>
+
+Writes a string of text to the output buffer at position starting at 
+Offset. A value of 1 for offset start the text at column 1 on the 
+display of driver 1, 8 will start the text from column 8 of driver one, 9
+ will start the text from column 1 of driver 2 etc. Offset numbers 
+beyond the maximum column number can be set to allow for text to be 
+positioned beyond the ends of the display.<br>
+<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.printMatrix(Value, Offset)</code></pre></div>
+
+Writes a positive or negative integer to the display. If negative a '-' 
+sign will be appended to the beginning of the number. See above of 
+description of Offset.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.printMatrix(Value, Decimal_Position, Offset)</code></pre></div>
+
+Writes a positive or negative integer to the display. If negative a '-' sign will be appended to the beginning of the number. <br>
+Decimal_Position allows the option to specify the position of a decimal point. <br>
+See above of description of Offset.<br>
+<br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>HCMAX7219.Invert(Mode);</code></pre></div>
+
+Turns inverted text on or off. Mode is of type boolean and can be one of the following pre-defined values:<br>
+INVERTOFF<br>
+INVERTON<br>
+<br>
+<br>
+<br>
+<img src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/Example_Sketch.png" class="postimage" alt="Image"><br>
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>/* FILE:    HCMODU0082_Serial_7_Segment_Module_Example1
+   DATE:    19/03/15
+   VERSION: 0.2
+   
+REVISIONS:
+
+12/03/15 Created version 0.1
+19/03/15 Updated to work with V0.2 of the HCMAX7219 library
+
+This is an example of how to use the Hobby Components serial 8 digit seven 7 
+segment display module (HCMODU0082). To use this example sketch you will 
+need to download and install the HCMAX7921 library available from the software
+section of our support forum (forum.hobbycomponents.com) or on github:
+(https://github.com/HobbyComponents)
+
+The library assumes you are using one module. If you have more than one module
+connected together then you will need to change the following line in the 
+libraries HCMAX7219.h header file to the number of drivers you have connected:
+
+#define NUMBEROFDRIVERS 1 &lt;- Change this number
+
+
+PINOUT:
+
+MODULE.....UNO/NANO.....MEGA
+VCC........+5V..........+5V
+GND........GND..........GND
+DIN........11...........51
+CS (LOAD)..10...........10
+CLK........13...........52
+
+You may copy, alter and reuse this code in any way you like, but please leave
+reference to HobbyComponents.com in your comments if you redistribute this code.
+This software may not be used directly for the purpose of promoting products that
+directly compete with Hobby Components Ltd's own range of products.
+
+THIS SOFTWARE IS PROVIDED "AS IS". HOBBY COMPONENTS MAKES NO WARRANTIES, 
+WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ACCURACY OR
+LACK OF NEGLIGENCE. HOBBY COMPONENTS SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE
+FOR ANY DAMAGES INCLUDING, BUT NOT LIMITED TO, SPECIAL, INCIDENTAL OR 
+CONSEQUENTIAL DAMAGES FOR ANY REASON WHATSOEVER. */
+
+/* Include the HCMAX7219 and SPI library */
+#include &lt;HCMAX7219.h&gt;
+#include "SPI.h"
+
+/* Set the LOAD (CS) digital pin number*/
+#define LOAD 10
+ 
+/* Create an instance of the library */
+HCMAX7219 HCMAX7219(LOAD);
+
+
+void setup() 
+{
+  HCMAX7219.Init();        
+}
+
+/* Main program */
+void loop() 
+{
+  /* Clear the output buffer */
+  HCMAX7219.Clear();
+  /* Write some text to the output buffer */
+  HCMAX7219.print7Seg("HELLO !!",8);
+  /* Send the output buffer to the display */
+  HCMAX7219.Refresh();  
+  
+  while(1);
+
+}</code></pre></div>
+
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>/* FILE:    HCMODU0082_Serial_7_Segment_Module_Example2
+   DATE:    19/03/15
+   VERSION: 0.2
+   
+REVISIONS:
+
+12/03/15 Created version 0.1
+19/03/15 Updated to work with V0.2 of the HCMAX7219 library
+
+This is an example of how to use the Hobby Components serial 8 digit seven 7 
+segment display module (HCMODU0082). To use this example sketch you will 
+need to download and install the HCMAX7921 library available from the software
+section of our support forum (forum.hobbycomponents.com) or on github:
+(https://github.com/HobbyComponents)
+
+The library assumes you are using one module. If you have more than one module
+connected together then you will need to change the following line in the 
+libraries HCMAX7219.h header file to the number of drivers you have connected:
+
+#define NUMBEROFDRIVERS 1 &lt;- Change this number
+
+
+PINOUT:
+
+MODULE.....UNO/NANO.....MEGA
+VCC........+5V..........+5V
+GND........GND..........GND
+DIN........11...........51
+CS (LOAD)..10...........10
+CLK........13...........52
+
+You may copy, alter and reuse this code in any way you like, but please leave
+reference to HobbyComponents.com in your comments if you redistribute this code.
+This software may not be used directly for the purpose of promoting products that
+directly compete with Hobby Components Ltd's own range of products.
+
+THIS SOFTWARE IS PROVIDED "AS IS". HOBBY COMPONENTS MAKES NO WARRANTIES, 
+WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ACCURACY OR
+LACK OF NEGLIGENCE. HOBBY COMPONENTS SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE
+FOR ANY DAMAGES INCLUDING, BUT NOT LIMITED TO, SPECIAL, INCIDENTAL OR 
+CONSEQUENTIAL DAMAGES FOR ANY REASON WHATSOEVER. */
+
+/* Include the HCMAX7219 and SPI library */
+#include &lt;HCMAX7219.h&gt;
+#include "SPI.h"
+
+/* Set the LOAD (CS) digital pin number*/
+#define LOAD 10
+ 
+/* Create an instance of the library */
+HCMAX7219 HCMAX7219(LOAD);
+
+
+void setup() 
+{
+  HCMAX7219.Init();        
+}
+
+/* Main program */
+void loop() 
+{
+  byte Loopcounter;
+  byte Position;
+  
+  /* SCROLL SOME TEXT 5 TIMES BEFORE MOVING ON */
+  for (Loopcounter = 0; Loopcounter &lt;= 5; Loopcounter++)
+  {
+    /* We are scrolling 30 characters of text across the entire display */
+    for (Position = 0; Position &lt;= DISPLAYBUFFERSIZE + 30; Position++)
+    { 
+      /* Write the test to the output buffer at the position we require */
+      HCMAX7219.print7Seg("HCMAX7219 SCROLLING TEXT DEMO ",Position);
+      /* Send the output buffer to the display */
+      HCMAX7219.Refresh();  
+      delay(200);
+    }
+  }
+  
+  
+  /* WE CAN ALSO DISPLAY INTEGER NUMBERS */
+  
+  /* Clear the output buffer */
+  HCMAX7219.Clear();
+  /* Write some text and output it*/
+  HCMAX7219.print7Seg("INT NUM.",8);
+  HCMAX7219.Refresh();
+  delay(2000);
+  
+  /* display an example of a negative integer number */
+  HCMAX7219.Clear();
+  HCMAX7219.print7Seg(-1234567,8);
+  HCMAX7219.Refresh();
+  delay(2000);
+  
+  /* Clear the output buffer */ 
+  HCMAX7219.Clear();
+  /* Write some text and output it*/
+  HCMAX7219.print7Seg("WITH DP.",8);
+  HCMAX7219.Refresh();
+  delay(2000);
+  
+  /* Show the DP in different places. Notice when the DP is at the 
+    beginning the number is padded with a zero */
+  HCMAX7219.Clear();
+  for (Position = 1; Position &lt;= 7; Position++)
+  { 
+    HCMAX7219.print7Seg(-1234567,Position,8);
+    HCMAX7219.Refresh();
+    delay(1000);
+  }
+}</code></pre></div>
+
+
+<div class="codebox"><p>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>/* FILE:    HCMODU0082_Serial_Dot_Matrix_Example
+   DATE:    19/03/15
+   VERSION: 0.1
+   
+REVISIONS:
+
+19/03/15 Created version 0.1
+
+This is an example of how to use the Hobby Components 8x8 serial dot matrix
+module (HCOPTO0014). To use this example sketch you will need to download 
+and install the HCMAX7921 library available from the software section of our
+support forum (forum.hobbycomponents.com) or on github:
+(https://github.com/HobbyComponents)
+
+The library assumes you are using one module. If you have more than one module
+connected together then you will need to change the following line in the 
+libraries HCMAX7219.h header file to the number of drivers you have connected:
+
+#define NUMBEROFDRIVERS 1 &lt;- Change this number
+
+PINOUT:
+
+MODULE.....UNO/NANO.....MEGA
+VCC........+5V..........+5V
+GND........GND..........GND
+DIN........11...........51
+CS (LOAD)..10...........10
+CLK........13...........52
+
+You may copy, alter and reuse this code in any way you like, but please leave
+reference to HobbyComponents.com in your comments if you redistribute this code.
+This software may not be used directly for the purpose of promoting products that
+directly compete with Hobby Components Ltd's own range of products.
+
+THIS SOFTWARE IS PROVIDED "AS IS". HOBBY COMPONENTS MAKES NO WARRANTIES, 
+WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ACCURACY OR
+LACK OF NEGLIGENCE. HOBBY COMPONENTS SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE
+FOR ANY DAMAGES INCLUDING, BUT NOT LIMITED TO, SPECIAL, INCIDENTAL OR 
+CONSEQUENTIAL DAMAGES FOR ANY REASON WHATSOEVER. */
+
+/* Include the HCMAX7219 and SPI library */
+#include &lt;HCMAX7219.h&gt;
+#include "SPI.h"
+
+/* Set the LOAD (CS) digital pin number*/
+#define LOAD 10
+ 
+/* Create an instance of the library */
+HCMAX7219 HCMAX7219(LOAD);
+
+
+void setup() 
+{
+  HCMAX7219.Init();       
+}
+
+
+/* Main program */
+void loop() 
+{
+  byte Loopcounter;
+  int Position;
+
+  /* Clear the output buffer */
+  HCMAX7219.Clear();
+  
+  /* SCROLL SOME TEXT 2 TIMES BEFORE MOVING ON */
+  for (Loopcounter = 0; Loopcounter &lt;= 2; Loopcounter++)
+  {
+    for(Position=0; Position &lt;= 64; Position++)
+    {
+      HCMAX7219.printMatrix("HELLO!! ", Position);
+      HCMAX7219.Refresh();
+      delay(80);
+    }
+  }
+  
+  
+  /* SCROLL SOME INVERTED TEXT 2 TIMES BEFORE MOVING ON */
+  HCMAX7219.Invert(INVERTON);
+  for (Loopcounter = 0; Loopcounter &lt;= 2; Loopcounter++)
+  {
+    for(Position=0; Position &lt;= 64; Position++)
+    {
+      HCMAX7219.Clear();
+      HCMAX7219.printMatrix("HELLO!! ", Position);
+      HCMAX7219.Refresh();
+      delay(80);
+    }
+  }
+  HCMAX7219.Invert(INVERTOFF);
+  
+  
+  
+  /* SCROLL AND INTEGER NUMBER */
+  for(Position=0; Position &lt;= 80; Position++)
+  {
+    HCMAX7219.Clear();
+    HCMAX7219.printMatrix(-12345678, Position);
+    HCMAX7219.Refresh();
+    delay(80);
+  }
+  
+  
+  
+  /* SCROLL AND INTEGER NUMBER WITH DECIMAL PLACE */
+  for(Position=0; Position &lt;= 96; Position++)
+  {
+    HCMAX7219.Clear();
+    HCMAX7219.printMatrix(-12345678, 2, Position);
+    HCMAX7219.Refresh();
+    delay(80);
+  }
+  
+}
+</code></pre></div>
+
+<br>
+<br>
+<img src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/Downloads.png" class="postimage" alt="Image"><br>
+<br>
+The library files can be downloaded below:<br>
+<br>
+Latest Version (0.5)
+<div class="inline-attachment">
+			
+		
+		
+				<dl class="file">
+			<dt><span class="imageset icon_topic_attach"></span> <a class="postlink" href="http://forum.hobbycomponents.com/download/file.php?id=558">HCMAX7219_V0_5.zip</a></dt>
+			<dd><em>HCMAX7219 Library (V0.5)</em></dd>			<dd>(14.6 KiB) Downloaded 18 times</dd>
+		</dl>
+		
+		
+			</div>
+
+<br>
+Older version (0.4)
+<div class="inline-attachment">
+			
+		
+		
+				<dl class="file">
+			<dt><span class="imageset icon_topic_attach"></span> <a class="postlink" href="http://forum.hobbycomponents.com/download/file.php?id=467">HCMAX7219_V0_4.zip</a></dt>
+			<dd><em>HCMAX7219 Library (V0.4) Improved refresh function and fixed compatibility issue with Linux version of Arduino IDE</em></dd>			<dd>(13.98 KiB) Downloaded 65 times</dd>
+		</dl>
+		
+		
+			</div>
+
+<br>
+Older version (0.3)
+<div class="inline-attachment">
+			
+		
+		
+				<dl class="file">
+			<dt><span class="imageset icon_topic_attach"></span> <a class="postlink" href="http://forum.hobbycomponents.com/download/file.php?id=358">HCMAX7219_V0_3.zip</a></dt>
+			<dd><em>HCMAX7219 Library (V0.3) updated to be compatible with the Arduino Due.</em></dd>			<dd>(13.79 KiB) Downloaded 129 times</dd>
+		</dl>
+		
+		
+			</div>
+
+<br>
+Older version 0.2
+<div class="inline-attachment">
+			
+		
+		
+				<dl class="file">
+			<dt><span class="imageset icon_topic_attach"></span> <a class="postlink" href="http://forum.hobbycomponents.com/download/file.php?id=233">HCMAX7219.zip</a></dt>
+			<dd><em>HCMAX7219 Library (V0.2) with added dot matrix support.</em></dd>			<dd>(33.92 KiB) Downloaded 110 times</dd>
+		</dl>
+		
+		
+			</div></div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5880" class="post has-profile bg1 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5880">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9893" class="username">Kolki</a>							</dt>
+
+									
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=9893&amp;sr=posts">10</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Mon Oct 09, 2017 9:31 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5880">
+
+						<h3><a href="#p5880">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5880/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5880" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5880#p5880" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9893" class="username">Kolki</a></strong> » </span>Tue Oct 10, 2017 1:31 pm
+			</p>
+			
+			
+			
+			<div class="content">How many HCMAX7219 can the LED driver library handle?<br>
+I have 12 8x7segment display"s to handle.<br>
+The Arduino Led control library can only handle 8 display's on 1 instance.</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5881" class="post has-profile bg2 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5881">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a>							</dt>
+
+						<dd class="profile-rank">Site Admin</dd>			
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=54&amp;sr=posts">852</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Sun Aug 05, 2012 5:15 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5881">
+
+						<h3><a href="#p5881">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5881/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5881" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5881#p5881" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a></strong> » </span>Tue Oct 10, 2017 5:08 pm
+			</p>
+			
+			
+			
+			<div class="content">It's only limited by the amount of available 
+memory in your Arduino. 12 drivers shouldn't be an issue. Just remember 
+to change the #define NUMBEROFDRIVERS in the HCMAX7219.h file to 12</div>
+
+			
+									
+									<div id="sig5881" class="signature">Comments made by this poster do not necessarily reflect the views of Hobby Components Ltd.</div>
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5882" class="post has-profile bg1 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5882">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9899" class="username">jeremixogg</a>							</dt>
+
+									
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=9899&amp;sr=posts">2</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Tue Oct 10, 2017 6:03 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5882">
+
+						<h3><a href="#p5882">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5882/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5882" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5882#p5882" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9899" class="username">jeremixogg</a></strong> » </span>Tue Oct 10, 2017 6:08 pm
+			</p>
+			
+			
+			
+			<div class="content">Do you think the memory of an arduino Uno will handle 24 modules ?<br>
+<br>
+I also project to use real-time controllers, like buttons or even potentiometers.<br>
+Do you think it could mix well with your library, (and SPI library also) ?</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5884" class="post has-profile bg2 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5884">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a>							</dt>
+
+						<dd class="profile-rank">Site Admin</dd>			
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=54&amp;sr=posts">852</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Sun Aug 05, 2012 5:15 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5884">
+
+						<h3><a href="#p5884">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5884/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5884" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5884#p5884" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a></strong> » </span>Wed Oct 11, 2017 9:52 am
+			</p>
+			
+			
+			
+			<div class="content"><blockquote class="uncited"><div>Do you think the memory of an Arduino Uno will handle 24 modules ?</div></blockquote>
+
+Yes the library itself will compile with that many modules. 24 modules 
+will take an additional 10% of the Unos RAM. Obviously your own 
+application will need leave enough spare memory for the library for them
+ to work together. <br>
+
+<blockquote class="uncited"><div>I also project to use real-time controllers, like buttons or even potentiometers.<br>
+Do you think it could mix well with your library, (and SPI library also) ?</div></blockquote>
+
+The library only uses CPU cycles when executing a library function or 
+whilst pushing new data to the drivers with the Refresh() function. If 
+your sketch isn't currently executing one of these functions then there 
+wont be any library code running in the background.<br>
+<br>
+It does use the hardware SPI interface to push the data to the drivers 
+when performing a refresh. However, as it makes use of a chip select pin
+ (LOAD) then you'll probably be able to connect other SPI slave devices 
+so long as the code and the hardware make use of separate CS pins.</div>
+
+			
+									
+									<div id="sig5884" class="signature">Comments made by this poster do not necessarily reflect the views of Hobby Components Ltd.</div>
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5885" class="post has-profile bg1 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5885">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9893" class="username">Kolki</a>							</dt>
+
+									
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=9893&amp;sr=posts">10</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Mon Oct 09, 2017 9:31 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5885">
+
+						<h3><a href="#p5885">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5885/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5885" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5885#p5885" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9893" class="username">Kolki</a></strong> » </span>Wed Oct 11, 2017 10:18 am
+			</p>
+			
+			
+			
+			<div class="content">Thanks Andrew,<br>
+<br>
+I will carry on with my project, and maby come back with some other questions.<br>
+<br>
+Regards Albert</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5888" class="post has-profile bg2 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5888">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9899" class="username">jeremixogg</a>							</dt>
+
+									
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=9899&amp;sr=posts">2</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Tue Oct 10, 2017 6:03 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5888">
+
+						<h3><a href="#p5888">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5888/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5888" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5888#p5888" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9899" class="username">jeremixogg</a></strong> » </span>Wed Oct 11, 2017 12:23 pm
+			</p>
+			
+			
+			
+			<div class="content">Thanks Andrew.<br>
+<br>
+I don't understand everything in your answer (as I'm Arduino beginner).<br>
+<br>
+But I realize that my question was :<br>
+Do you think I could use the Scheduler library with SPI and yours together ?<br>
+This is more accurate <img class="smilies" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/icon_e_wink.gif" alt=";)" title="Wink" width="15" height="17"></div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5890" class="post has-profile bg1 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5890">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a>							</dt>
+
+						<dd class="profile-rank">Site Admin</dd>			
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=54&amp;sr=posts">852</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Sun Aug 05, 2012 5:15 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5890">
+
+						<h3><a href="#p5890">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5890/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5890" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5890#p5890" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a></strong> » </span>Wed Oct 11, 2017 3:33 pm
+			</p>
+			
+			
+			
+			<div class="content">I've never used the scheduler library so I can't
+ say for sure.  They only thing I can say is that the HCMAX7219 library 
+doesn't do anything special or use any interrupts so there's a a good 
+chance it would work. The same goes for other third party libraries that
+ use the SPI interface other than the HCMAX7219 has been written in a 
+way that it should be able to coexist with libraries that use the SPI 
+interface so long as they use a chip select function/pin. <br>
+<br>
+So I'm afraid the best answer I can give is I'm not sure but probably <img class="smilies" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/icon_e_smile.gif" alt=":-)" title="Smile" width="15" height="17"></div>
+
+			
+									
+									<div id="sig5890" class="signature">Comments made by this poster do not necessarily reflect the views of Hobby Components Ltd.</div>
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5892" class="post has-profile bg2 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5892">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9893" class="username">Kolki</a>							</dt>
+
+									
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=9893&amp;sr=posts">10</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Mon Oct 09, 2017 9:31 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5892">
+
+						<h3><a href="#p5892">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5892/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5892" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5892#p5892" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=9893" class="username">Kolki</a></strong> » </span>Wed Oct 11, 2017 3:39 pm
+			</p>
+			
+			
+			
+			<div class="content">Andrew,<br>
+Sorry to bother you again but i have one more question.<br>
+Is it possible to change the pin numbers fot DIN CLK LOAD as my project is completely wired .<br>
+My pinnumbers are DIN 22, LOAD 24 CLK 26.<br>
+It will be a great help if it is possible.<br>
+Thanks in advange.<br>
+Best regards  Albert</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+				<div id="p5894" class="post has-profile bg1 offline">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5894">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a>							</dt>
+
+						<dd class="profile-rank">Site Admin</dd>			
+		<dd class="profile-posts"><strong>Posts:</strong> <a href="http://forum.hobbycomponents.com/search.php?author_id=54&amp;sr=posts">852</a></dd>		<dd class="profile-joined"><strong>Joined:</strong> Sun Aug 05, 2012 5:15 pm</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5894">
+
+						<h3><a href="#p5894">Re: HCMAX7219 - LED driver library</a></h3>
+
+													<ul class="post-buttons">
+																										<li>
+							<a href="http://forum.hobbycomponents.com/post/5894/report" title="Report this post" class="button button-icon-only">
+								<i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">Report this post</span>
+							</a>
+						</li>
+																										<li>
+							<a href="http://forum.hobbycomponents.com/posting.php?mode=quote&amp;f=58&amp;p=5894" title="Reply with quote" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Quote</span>
+							</a>
+						</li>
+														<li class="responsive-menu hidden dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li></ul>
+							
+						<p class="author">
+									<a class="unread" href="http://forum.hobbycomponents.com/viewtopic.php?p=5894#p5894" title="Post">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Post</span>
+					</a>
+								<span class="responsive-hide">by <strong><a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=54" style="color: #AA0000;" class="username-coloured">andrew</a></strong> » </span>Wed Oct 11, 2017 5:14 pm
+			</p>
+			
+			
+			
+			<div class="content">Not for the DIN (MOSI) and CLK (SCL) pins I'm 
+afraid. The library makes use of the Arduinos hardware SPI interface 
+which fixed to specific digital pins the location of which is dependent 
+on the model of Arduino board you are using. Only the LOAD pin can be 
+moved to another pin.</div>
+
+			
+									
+									<div id="sig5894" class="signature">Comments made by this poster do not necessarily reflect the views of Hobby Components Ltd.</div>
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Top">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Top</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	<hr class="divider">
+	
+
+	<div class="action-bar bar-bottom">
+	
+			<a href="http://forum.hobbycomponents.com/posting.php?mode=reply&amp;f=58&amp;t=1794" class="button" title="Post a reply">
+							<span>Post Reply</span> <i class="icon fa-reply fa-fw" aria-hidden="true"></i>
+					</a>
+		
+		<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Topic tools" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+			<i class="icon fa-wrench fa-fw" aria-hidden="true"></i>
+			<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+		</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+													<li>
+						<a href="http://forum.hobbycomponents.com/viewtopic.php?uid=11869&amp;f=58&amp;t=1794&amp;watch=topic&amp;start=0&amp;hash=a6075133" class="watch-topic-link" title="Subscribe topic" data-ajax="toggle_link" data-toggle-class="icon fa-square-o fa-fw" data-toggle-text="Unsubscribe topic" data-toggle-url="./viewtopic.php?uid=11869&amp;f=58&amp;t=1794&amp;unwatch=topic&amp;start=0&amp;hash=a6075133" data-update-all=".watch-topic-link">
+							<i class="icon fa-check-square-o fa-fw" aria-hidden="true"></i><span>Subscribe topic</span>
+						</a>
+					</li>
+													<li>
+						<a href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;bookmark=1&amp;hash=a6075133" class="bookmark-link" title="Bookmark topic" data-ajax="alt_text" data-alt-text="Remove from bookmarks" data-update-all=".bookmark-link">
+							<i class="icon fa-bookmark-o fa-fw" aria-hidden="true"></i><span>Bookmark topic</span>
+						</a>
+					</li>
+																<li>
+					<a href="http://forum.hobbycomponents.com/memberlist.php?mode=email&amp;t=1794" title="Email topic">
+						<i class="icon fa-envelope-o fa-fw" aria-hidden="true"></i><span>Email topic</span>
+					</a>
+				</li>
+												<li>
+					<a href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;view=print" title="Print view" accesskey="p">
+						<i class="icon fa-print fa-fw" aria-hidden="true"></i><span>Print view</span>
+					</a>
+				</li>
+											</ul>
+		</div>
+	</div>
+
+			<form method="post" action="./viewtopic.php?f=58&amp;t=1794">
+		<div class="dropdown-container dropdown-container-left dropdown-button-control sort-tools">
+	<span title="Display and sorting options" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+		<i class="icon fa-sort-amount-asc fa-fw" aria-hidden="true"></i>
+		<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+	</span>
+	<div class="dropdown hidden">
+		<div class="pointer"><div class="pointer-inner"></div></div>
+		<div class="dropdown-contents">
+			<fieldset class="display-options">
+							<label>Display: <select name="st" id="st"><option value="0" selected="selected">All posts</option><option value="1">1 day</option><option value="7">7 days</option><option value="14">2 weeks</option><option value="30">1 month</option><option value="90">3 months</option><option value="180">6 months</option><option value="365">1 year</option></select></label>
+								<label>Sort by: <select name="sk" id="sk"><option value="a">Author</option><option value="t" selected="selected">Post time</option><option value="s">Subject</option></select></label>
+				<label>Direction: <select name="sd" id="sd"><option value="a" selected="selected">Ascending</option><option value="d">Descending</option></select></label>
+								<hr class="dashed">
+				<input type="submit" class="button2" name="sort" value="Go">
+						</fieldset>
+		</div>
+	</div>
+</div>
+		</form>
+	
+	
+	
+			<div class="pagination">
+			43 posts
+							<ul>
+		<li class="active"><span>1</span></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=10" role="button">2</a></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=20" role="button">3</a></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=30" role="button">4</a></li>
+				<li><a class="button" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=40" role="button">5</a></li>
+				<li class="arrow next"><a class="button button-icon-only" href="http://forum.hobbycomponents.com/viewtopic.php?f=58&amp;t=1794&amp;start=10" rel="next" role="button"><i class="icon fa-chevron-right fa-fw" aria-hidden="true"></i><span class="sr-only">Next</span></a></li>
+	</ul>
+					</div>
+	</div>
+
+
+<div class="action-bar actions-jump">
+		<p class="jumpbox-return">
+		<a href="http://forum.hobbycomponents.com/viewforum.php?f=58" class="left-box arrow-left" accesskey="r">
+			<i class="icon fa-angle-left fa-fw icon-black" aria-hidden="true"></i><span>Return to “Arduino”</span>
+		</a>
+	</p>
+	
+		<div class="jumpbox dropdown-container dropdown-container-right dropdown-up dropdown-left dropdown-button-control" id="jumpbox">
+			<span title="Jump to" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+				<span>Jump to</span>
+				<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+			</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																				<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=20" class="jumpbox-cat-link"> <span> Terms &amp; Conditions / Privacy Policy</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=21" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Terms &amp; Conditions</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=118" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Privacy Policy</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=83" class="jumpbox-cat-link"> <span> Development Boards, Programmers &amp; Accessories</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=84" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Arduino</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=98" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; Kits</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=53" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; Arduino Projects Handbook Kits</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=64" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; Arduino Development Boards</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=40" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; Arduino Shields</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=109" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; Cases</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=100" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Raspberry Pi</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=110" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; ESP8266</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=85" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Atmel</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=86" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Microchip</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=87" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; ST Microelectronics</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=88" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Altera</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=89" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Cypress</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=90" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Arm</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=50" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; TinyCircuits</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=111" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; WeMos</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=112" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Pine64</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=46" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Microduino</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=72" class="jumpbox-cat-link"> <span> Modules</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=74" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Wireless / Wired</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=73" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Sensors</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=75" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Display</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=76" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Motor drivers</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=77" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Relay</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=78" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Power</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=79" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Adaptor</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=80" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; RTC</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=108" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Audio</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=113" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Interface</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=116" class="jumpbox-cat-link"> <span> Home Automation</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=117" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Sonoff</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=95" class="jumpbox-cat-link"> <span> 3D Printing / CNC</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=51" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; 3D Printing / CNC</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=91" class="jumpbox-cat-link"> <span> Robotics / Mechanical</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=92" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Kits &amp; Parts</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=93" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Motors &amp; Servos</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=96" class="jumpbox-cat-link"> <span> Radio Control</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=52" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Radio Control</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=81" class="jumpbox-cat-link"> <span> RFID</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=82" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; RFID</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=114" class="jumpbox-cat-link"> <span> Arcade</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=115" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Arcade</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=97" class="jumpbox-cat-link"> <span> Other</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=105" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Electronics Kits / Bundles</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=99" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Components</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=45" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; ICs</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=63" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Hardware</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=101" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Project / Soldering</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=102" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Test</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=103" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Cables</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=104" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Other</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=57" class="jumpbox-cat-link"> <span> Software</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=58" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Arduino</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=107" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Microchip PIC</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=106" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span>↳ &nbsp; Great Cow Basic</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=48" class="jumpbox-cat-link"> <span> General Discussion</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=49" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; General Discussion</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=36" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Community Projects</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=31" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; HobbyComponents.com shop</span></a></li>
+																<li><a href="http://forum.hobbycomponents.com/viewforum.php?f=32" class="jumpbox-sub-link"><span class="spacer"></span> <span>↳ &nbsp; Ebay shop</span></a></li>
+											</ul>
+		</div>
+	</div>
+
+	</div>
+
+	<div class="stat-block online-list">
+		<h3><a href="http://forum.hobbycomponents.com/viewonline.php">Who is online</a></h3>
+		<p>Users browsing this forum: <a href="http://forum.hobbycomponents.com/memberlist.php?mode=viewprofile&amp;u=11869" class="username">hannahgumbley1</a> and 0 guests</p>
+	</div>
+
+			</div>
+
+
+<div id="page-footer" class="page-footer" role="contentinfo">
+	<div class="navbar navbar-bottom" role="navigation">
+	<div class="inner">
+
+	<ul id="nav-footer" class="nav-footer linklist" role="menubar">
+		<li class="breadcrumbs">
+									<span class="crumb"><a href="http://forum.hobbycomponents.com/index.php" data-navbar-reference="index" title="Board index"><i class="icon fa-home fa-fw" aria-hidden="true"></i><span>Board index</span></a></span>					</li>
+		
+				
+							<li class="responsive-menu hidden rightside dropdown-container"><a href="javascript:void(0);" class="js-responsive-menu-link responsive-menu-link dropdown-toggle"><i class="icon fa-bars fa-fw" aria-hidden="true"></i></a><div class="dropdown"><div class="pointer"><div class="pointer-inner"></div></div><ul class="dropdown-contents"></ul></div></li><li class="rightside">
+				<a href="http://forum.hobbycomponents.com/ucp.php?mode=delete_cookies" data-ajax="true" data-refresh="true" role="menuitem">
+					<i class="icon fa-trash fa-fw" aria-hidden="true"></i><span>Delete all board cookies</span>
+				</a>
+			</li>
+				
+							<li class="rightside" data-last-responsive="true">
+				<a href="http://forum.hobbycomponents.com/memberlist.php?mode=contactadmin" role="menuitem">
+					<i class="icon fa-envelope fa-fw" aria-hidden="true"></i><span>Contact us</span>
+				</a>
+			</li>
+			</ul>
+
+	</div>
+</div>
+
+	<div class="copyright">
+        <span>Flat Style by <a href="http://iansvivarium.com/">Ian Bradley</a> • Powered by <a href="https://www.phpbb.com/">phpBB</a>® Forum Software © phpBB Limited</span><br>
+											</div>
+
+	<div id="darkenwrapper" class="darkenwrapper" data-ajax-error-title="AJAX error" data-ajax-error-text="Something went wrong when processing your request." data-ajax-error-text-abort="User aborted request." data-ajax-error-text-timeout="Your request timed out; please try again." data-ajax-error-text-parsererror="Something went wrong with the request and the server returned an invalid reply.">
+		<div id="darken" class="darken">&nbsp;</div>
+	</div>
+
+	<div id="phpbb_alert" class="phpbb_alert" data-l-err="Error" data-l-timeout-processing-req="Request timed out.">
+		<a href="#" class="alert_close">
+			<i class="icon fa-times-circle fa-fw" aria-hidden="true"></i>
+		</a>
+		<h3 class="alert_title">&nbsp;</h3><p class="alert_text"></p>
+	</div>
+	<div id="phpbb_confirm" class="phpbb_alert">
+		<a href="#" class="alert_close">
+			<i class="icon fa-times-circle fa-fw" aria-hidden="true"></i>
+		</a>
+		<div class="alert_text"></div>
+	</div>
+</div>
+
+</div>
+
+<div>
+	<a id="bottom" class="anchor" accesskey="z"></a>
+	</div>
+
+<script type="text/javascript" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/jquery.js"></script>
+<script type="text/javascript" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/core.js"></script>
+
+
+<script type="text/javascript">
+(function($) {  // Avoid conflicts with other libraries
+
+'use strict';
+	
+	phpbb.addAjaxCallback('reporttosfs', function(data) {
+		if (data.postid !== "undefined") {
+			$('#sfs' + data.postid).hide();
+			phpbb.closeDarkenWrapper(5000);
+		}
+	});
+
+})(jQuery);
+</script>
+<script type="text/javascript" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/script.js"></script>
+<script type="text/javascript" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/forum_fn.js"></script>
+<script type="text/javascript" src="HCMAX7219%20-%20LED%20driver%20library%20-%20forum.hobbycomponents.com_files/ajax.js"></script>
+
+
+
+
+</body></html>

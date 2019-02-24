@@ -1,4 +1,4 @@
-#include <SCoop.h>
+//#include <SCoop.h>
 
 #include "state_api.h"
 #include "state_internals.h" // do not stare into the abyss, lest it stare back into you
