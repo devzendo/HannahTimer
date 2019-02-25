@@ -7,6 +7,25 @@
 // Rotary encoder reading from an article at
 // http://makeatronics.blogspot.co.uk/2013/02/efficiently-reading-quadrature-with.html
 
+// INPUTS ON PINS --------------------------------------------------------------------------------------------------------------
+
+const int stopwatchIn = 12; // ??
+const int timerIn = 12; // ??
+const int goIn = 12; // ??
+
+const int setIn = 12; // ?? PINB
+const int encRIn = 4; // ?? PIND
+const int encLIn = 3; // ?? PIND
+
+const int ledClk = 13;
+const int ledCs = 10; // a.k.a. "LOAD"
+const int ledDin = 11;
+
+// Port Manipulation
+//    B (digital pin 8 to 13)
+//    C (analog input pins)
+//    D (digital pins 0 to 7) 
+
 // EVENT MANAGEMENT ------------------------------------------------------------------------------------------------------------
 
 // We have several events that we can react to....
@@ -121,10 +140,25 @@ static int8_t encoderLookupTable[] = {
 };
 static uint8_t encoderValue = 0;
 
+// 7-SEGMENT LED CONTROL -------------------------------------------------------------------------------------------------------
+
+HCMAX7219 HCMAX7219(ledCs);
+
 
 // Initialise all hardware, interrupt handler.
 void initialise() {
   // The buttons...
+  pinMode(stopwatchIn, INPUT_PULLUP);
+  pinMode(timerIn, INPUT_PULLUP);
+  pinMode(goIn, INPUT_PULLUP);
+  
+  pinMode(setIn, INPUT_PULLUP);
+  pinMode(encRIn, INPUT_PULLUP);
+  pinMode(encLIn, INPUT_PULLUP);
+  
+  // 7-Segment LED...
+  HCMAX7219.Init();
+  HCMAX7219.Clear();
   
   // TODO set up an interrupt handler on a timer, to read hardware and enqueue events
 }
