@@ -1,7 +1,15 @@
-class NothingState: public State {
-  // ommmmm.......
-};
+// Internals of the state and hardware handler. These are not the droids you are looking for..
+// Look in state_api.h, and reconsider your life choices...
 
+// Acknowledgements: Jack Ganssle for his article on firmware debouncing
+// http://www.ganssle.com/debouncing-pt2.htm
+//
+// Rotary encoder reading from an article at
+// http://makeatronics.blogspot.co.uk/2013/02/efficiently-reading-quadrature-with.html
+
+// EVENT MANAGEMENT ------------------------------------------------------------------------------------------------------------
+
+// We have several events that we can react to....
 enum Event {
   NONE,
   STOPWATCH_RELEASE, STOPWATCH_PRESS,
@@ -12,18 +20,112 @@ enum Event {
   TICK
 };
 
+// Events detected by the interrupt handler are enqueued on this FIFO queue, 
+// which is read by processNextEvent (in non-interrupt time).
+defineFifo(eventFifo, Event, 100)
+
+// Enqueue an event on the FIFO queue.
+static char zut[20];
+inline void eventOccurred(Event eventCode) {
+    sprintf(zut, ">ev:0x%04X", eventCode);
+    Serial.println(zut);
+    if (!eventFifo.put(&eventCode)) {
+        Serial.println("FIFO overrun");
+    }
+}
+
+// STATE MANAGEMENT ------------------------------------------------------------------------------------------------------------
+
+// The state machine must have a starting state - this one does nothing.
+class NothingState: public State {
+  // ommmmm.......
+};
+
+// State machine management
 State nothing = NothingState();
 State currentState = nothing;
+
+// TICK STATE MANAGEMENT -------------------------------------------------------------------------------------------------------
+
+// Flash... ah-ahhhhhh!
 bool flashState = false;
 int ledsToFlash = NoLEDs;
 int timeComponentsToFlash = NoFlashing;
-int hours = 0;
-int minutes = 0;
-int seconds = 0;
+
+// Are we ticking (sending TICK events)?
 bool tickEnabled = false;
 long tickEnableTime = 0L;
 
+// TIME MANAGEMENT -------------------------------------------------------------------------------------------------------------
+
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
+
+// DEBOUNCE CONTROL ------------------------------------------------------------------------------------------------------------
+
+// Debounce logic based on code by Jack Ganssle.
+const uint8_t checkMsec = 4;     // Read hardware every so many milliseconds
+const uint8_t pressMsec = 10;    // Stable time before registering pressed
+const uint8_t releaseMsec = 100; // Stable time before registering released
+
+class Debouncer {
+public:
+    // called every checkMsec.
+    // The key state is +5v=released, 0v=pressed; there are pullup resistors.
+    void debounce(bool rawPinState) {
+        bool rawState;
+        keyChanged = false;
+        keyReleased = debouncedKeyPress;
+        if (rawPinState == debouncedKeyPress) {
+            // Set the timer which allows a change from current state
+            resetTimer();
+        } else {
+            // key has changed - wait for new state to become stable
+            debouncedKeyPress = rawPinState;
+            keyChanged = true;
+            keyReleased = debouncedKeyPress;
+            // And reset the timer
+            resetTimer();
+        }
+    }
+
+    // Signals the key has changed from open to closed, or the reverse.
+    bool keyChanged;
+    // The current debounced state of the key.
+    bool keyReleased;
+
+private:
+    void resetTimer() {
+        if (debouncedKeyPress) {
+            count = releaseMsec / checkMsec;
+        } else {
+            count = pressMsec / checkMsec;
+        }
+    }
+
+    uint8_t count = releaseMsec / checkMsec;
+    // This holds the debounced state of the key.
+    bool debouncedKeyPress = false; 
+};
+
+Debouncer stopwatchDebounce;
+Debouncer timerDebounce;
+Debouncer setDebounce;
+Debouncer goDebounce;
+
+// ENCODER CONTROL -------------------------------------------------------------------------------------------------------------
+
+static int8_t encoderLookupTable[] = {
+    0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0
+};
+static uint8_t encoderValue = 0;
+
+
+// Initialise all hardware, interrupt handler.
 void initialise() {
+  // The buttons...
+  
   // TODO set up an interrupt handler on a timer, to read hardware and enqueue events
 }
 
