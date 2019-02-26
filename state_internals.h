@@ -8,23 +8,54 @@
 // http://makeatronics.blogspot.co.uk/2013/02/efficiently-reading-quadrature-with.html
 
 // INPUTS ON PINS --------------------------------------------------------------------------------------------------------------
+                           //      76543210
+const int stopwatchIn = 4; // PIND    x  --
+const int stopwatchInBit = 0x10;
+const int timerIn = 5;     // PIND   x   --
+const int timerInBit = 0x20;
+const int goIn = 6;        // PIND  x    --
+const int goInBit = 0x40;
+const int setIn = 7;       // PIND x     -- // TODO REWIRE TO 7
+const int setInBit = 0x80;
 
-const int stopwatchIn = 12; // ??
-const int timerIn = 12; // ??
-const int goIn = 12; // ??
 
-const int setIn = 12; // ?? PINB
-const int encRIn = 4; // ?? PIND
-const int encLIn = 3; // ?? PIND
+const int encRIn = 8;      // PINB --     x // CLOCKWISE CLK
+const int encRInBit = 0x01;
+                           //      76543210
+const int encLIn = 9;      // PINB --    x  // ANTICLOCKWISE DT
+const int encLInBit = 0x02;
 
-const int ledClk = 13;
-const int ledCs = 10; // a.k.a. "LOAD"
-const int ledDin = 11;
+// TODO going to have to rewire the encoder:
+// should have PINB:
+// -     -     13    12    11    10    9     8    
+//             LED   MOSI  LED   LED   ENC   ENC
+//             SCK         DIN   CS    L     R
+// should have PIND:
+// 7     6     5     4     3     2     -     -
+// SET   GO    TIMER STPWC
+
+// OUTPUTS ON PINS -------------------------------------------------------------------------------------------------------------
+
+const int ledCs = 10; // a.k.a. "LOAD" or "SS"
+const int ledDin = 11; // "MISO"
+// probably avoid 12 MOSI
+const int ledClk = 13; // "SCK"
 
 // Port Manipulation
 //    B (digital pin 8 to 13)
+//    The two high bits (6 & 7) map to the crystal pins and are not usable 
 //    C (analog input pins)
 //    D (digital pins 0 to 7) 
+//    The two low bits (0 & 1) are for serial comms and shouldn't be changed.
+
+inline uint16_t readPins() {
+    return (PIND & 0xF0) | (PINB & 0x03);
+}
+
+// input change detection, called in loop() for test harness, or in ISR
+volatile uint16_t oldPins;
+volatile uint16_t newPins;
+volatile uint16_t initialPins;
 
 // EVENT MANAGEMENT ------------------------------------------------------------------------------------------------------------
 
@@ -67,13 +98,13 @@ State currentState = nothing;
 // TICK STATE MANAGEMENT -------------------------------------------------------------------------------------------------------
 
 // Flash... ah-ahhhhhh!
-bool flashState = false;
+volatile bool flashState = false;
 int ledsToFlash = NoLEDs;
 int timeComponentsToFlash = NoFlashing;
 
 // Are we ticking (sending TICK events)?
-bool tickEnabled = false;
-long tickEnableTime = 0L;
+volatile bool tickEnabled = false;
+volatile long tickEnableTime = 0L;
 
 // TIME MANAGEMENT -------------------------------------------------------------------------------------------------------------
 
@@ -144,6 +175,69 @@ static uint8_t encoderValue = 0;
 
 HCMAX7219 HCMAX7219(ledCs);
 
+// INTERRUPT CONTROL -----------------------------------------------------------------------------------------------------------
+
+
+// input change to event conversion, called in loop or ISR
+void eventDecode(uint16_t rawPins) {
+    // Do the decoding, and call eventOccurred with each event found...
+    // Need to debounce buttons, not so bad on encoder button.
+    stopwatchDebounce.debounce(rawPins & stopwatchInBit);
+    if (stopwatchDebounce.keyChanged) {
+        eventOccurred(stopwatchDebounce.keyReleased? STOPWATCH_RELEASE : STOPWATCH_PRESS);
+    }
+
+    timerDebounce.debounce(rawPins & timerInBit);
+    if (timerDebounce.keyChanged) {
+        eventOccurred(timerDebounce.keyReleased? TIMER_RELEASE : TIMER_PRESS);
+    }
+
+    goDebounce.debounce(rawPins & goInBit);
+    if (goDebounce.keyChanged) {
+        eventOccurred(goDebounce.keyReleased? GO_RELEASE : GO_PRESS);
+    }
+
+    setDebounce.debounce(rawPins & setInBit);
+    if (setDebounce.keyChanged) {
+        eventOccurred(setDebounce.keyReleased? SET_RELEASE : SET_PRESS);
+    }
+
+    // rotary encoder....
+    encoderValue = encoderValue << 2;
+    encoderValue = encoderValue | ((rawPins & (encLInBit | encRInBit)));
+    switch (encoderLookupTable[encoderValue & 0b1111]) {
+        case 0:
+            break;
+        case 1:
+            eventOccurred(ANTICLOCKWISE);
+            break;
+        case -1:
+            eventOccurred(CLOCKWISE);
+            break;
+    }
+}
+
+// Called by the interrupt handler on each second
+void secondTick() {
+  flashState = ! flashState;
+  // TODO set LEDs indicated by ledsToFlash flashing
+  // TODO set time components indicated by timeComponentsToFlash flashing
+  
+}
+
+void interruptHandler(void) {
+    newPins = readPins();
+    eventDecode(newPins);
+  
+  // TODO has a second passed since last call?
+  // secondTick();
+  
+  // Are we ticking? Has a second passed since last call?
+  if (tickEnabled && false /* TODO second passed */) {
+    // TODO put a TICK on the event queue
+  }
+}
+
 
 // Initialise all hardware, interrupt handler.
 void initialise() {
@@ -156,33 +250,17 @@ void initialise() {
   pinMode(encRIn, INPUT_PULLUP);
   pinMode(encLIn, INPUT_PULLUP);
   
+  initialPins = oldPins = newPins = readPins();
+
   // 7-Segment LED...
   HCMAX7219.Init();
   HCMAX7219.Clear();
-  
-  // TODO set up an interrupt handler on a timer, to read hardware and enqueue events
+
+  // Interrupt handler
+  Timer1.initialize(100000); // Every 1/10th of a second.
+  Timer1.attachInterrupt(interruptHandler);
 }
 
-void interruptHandler() {
-  // TODO read hardware
-  // TODO enqueue events
-  
-  // TODO has a second passed since last call?
-  // secondTick();
-  
-  // Are we ticking? Has a second passed since last call?
-  if (tickEnabled && false /* TODO second passed */) {
-    // TODO put a TICK on the event queue
-  }
-}
-
-// Called by the interrupt handler on each second
-void secondTick() {
-  flashState = ! flashState;
-  // TODO set LEDs indicated by ledsToFlash flashing
-  // TODO set time components indicated by timeComponentsToFlash flashing
-  
-}
 
 void processEvent(const Event e) {
   switch(e) {
