@@ -67,7 +67,7 @@ enum Event {
   GO_RELEASE, GO_PRESS,
   SET_RELEASE, SET_PRESS,
   CLOCKWISE, ANTICLOCKWISE,
-  TICK
+  TICK, FLASH
 };
 
 // Events detected by the interrupt handler are enqueued on this FIFO queue, 
@@ -217,8 +217,12 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
 // Called by the interrupt handler on each second (after the second timer has been reset)
 void secondTick() {
   flashState = ! flashState;
-  // TODO set LEDs indicated by ledsToFlash flashing
-  // TODO set time components indicated by timeComponentsToFlash flashing
+
+  // Handle flashing of LEDs indicated by ledsToFlash and timeComponentsToFlash outside
+  // the interrupt handler.
+  if (ledsToFlash != NoLEDs || timeComponentsToFlash != NoFlashing) {
+    eventOccurred(FLASH);
+  }
   
   // Send a tick event if we are ticking?
   if (tickEnabled) {
@@ -270,6 +274,14 @@ void initialise() {
 void processEvent(const Event e) {
   switch(e) {
     case NONE:
+      break;
+    
+    case FLASH:
+#ifdef DEBUG
+      Serial.println("FLASH");
+#endif
+      // TODO set LEDs indicated by ledsToFlash flashing
+      // TODO set time components indicated by timeComponentsToFlash flashing
       break;
       
     case STOPWATCH_RELEASE:
