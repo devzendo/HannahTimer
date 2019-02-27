@@ -354,8 +354,11 @@ void setNextState(State &newState) {
 }
 
 void processNextEvent() {
-  // TODO get from queue
-  // TODO call processEvent(e)
+  // If there any events on the FIFO queue that were pushed by the ISR, process them here in the main non-interrupt loop.
+  Event event;
+  if (eventFifo.get(&event)) {
+    processEvent(event);
+  }
 }
 
 void flashLEDs(const int leds) {
