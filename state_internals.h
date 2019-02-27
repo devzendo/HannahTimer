@@ -105,7 +105,6 @@ int timeComponentsToFlash = NoFlashing;
 
 // Are we ticking (sending TICK events)?
 volatile bool tickEnabled = false;
-volatile long tickEnableTime = 0L;
 
 // TIME MANAGEMENT -------------------------------------------------------------------------------------------------------------
 
@@ -226,7 +225,7 @@ void secondTick() {
   
   // Send a tick event if we are ticking?
   if (tickEnabled) {
-    // TODO put a TICK on the event queue
+    eventOccurred(TICK);
   }
 }
 
