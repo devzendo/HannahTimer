@@ -99,6 +99,7 @@ State currentState = nothing;
 
 // Flash... ah-ahhhhhh!
 volatile bool flashState = false;
+volatile long lastSecondTickMillis = 0;
 int ledsToFlash = NoLEDs;
 int timeComponentsToFlash = NoFlashing;
 
@@ -223,18 +224,22 @@ void secondTick() {
   // TODO set LEDs indicated by ledsToFlash flashing
   // TODO set time components indicated by timeComponentsToFlash flashing
   
-}
-
-void interruptHandler(void) {
-    newPins = readPins();
-    eventDecode(newPins);
-  
-  // TODO has a second passed since last call?
-  // secondTick();
-  
   // Are we ticking? Has a second passed since last call?
   if (tickEnabled && false /* TODO second passed */) {
     // TODO put a TICK on the event queue
+  }
+}
+
+void interruptHandler(void) {
+  // Process any button/encoder state transitions...
+  newPins = readPins();
+  eventDecode(newPins);
+  
+  // Has a second passed since last interrupt?
+  long currentMillis = millis();  
+  if (abs(currentMillis - lastSecondTickMillis) > 1000) {
+    secondTick();
+    lastSecondTickMillis = currentMillis;
   }
 }
 
@@ -257,6 +262,7 @@ void initialise() {
   HCMAX7219.Clear();
 
   // Interrupt handler
+  lastSecondTickMillis = millis();
   Timer1.initialize(100000); // Every 1/10th of a second.
   Timer1.attachInterrupt(interruptHandler);
 }
