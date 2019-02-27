@@ -218,14 +218,14 @@ void eventDecode(uint16_t rawPins) {
     }
 }
 
-// Called by the interrupt handler on each second
+// Called by the interrupt handler on each second (after the second timer has been reset)
 void secondTick() {
   flashState = ! flashState;
   // TODO set LEDs indicated by ledsToFlash flashing
   // TODO set time components indicated by timeComponentsToFlash flashing
   
-  // Are we ticking? Has a second passed since last call?
-  if (tickEnabled && false /* TODO second passed */) {
+  // Send a tick event if we are ticking?
+  if (tickEnabled) {
     // TODO put a TICK on the event queue
   }
 }
@@ -243,6 +243,9 @@ void interruptHandler(void) {
   }
 }
 
+void resetSecondTimerToNow() {
+  lastSecondTickMillis = millis();  
+}
 
 // Initialise all hardware, interrupt handler.
 void initialise() {
@@ -262,7 +265,7 @@ void initialise() {
   HCMAX7219.Clear();
 
   // Interrupt handler
-  lastSecondTickMillis = millis();
+  resetSecondTimerToNow();
   Timer1.initialize(100000); // Every 1/10th of a second.
   Timer1.attachInterrupt(interruptHandler);
 }
@@ -409,6 +412,7 @@ bool tickTimeDown() {
 
 void flashTimeComponent(const int component) {
   timeComponentsToFlash = component;
+  resetSecondTimerToNow();
 }
 
 void incHours() {
@@ -467,6 +471,7 @@ int getSeconds() {
 
 void startTicking() {
   tickEnabled = true;
+  resetSecondTimerToNow();
 }
 
 void stopTicking() {
