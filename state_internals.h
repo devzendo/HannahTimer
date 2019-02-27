@@ -112,6 +112,10 @@ int hours = 0;
 int minutes = 0;
 int seconds = 0;
 
+// 7-SEGMENT LED CONTROL -------------------------------------------------------------------------------------------------------
+
+HCMAX7219 HCMAX7219(ledCs);
+
 // DEBOUNCE CONTROL ------------------------------------------------------------------------------------------------------------
 
 // Debounce logic based on code by Jack Ganssle.
@@ -164,22 +168,15 @@ Debouncer timerDebounce;
 Debouncer setDebounce;
 Debouncer goDebounce;
 
-// ENCODER CONTROL -------------------------------------------------------------------------------------------------------------
+// INTERRUPT CONTROL -----------------------------------------------------------------------------------------------------------
 
 static int8_t encoderLookupTable[] = {
     0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0
 };
 static uint8_t encoderValue = 0;
 
-// 7-SEGMENT LED CONTROL -------------------------------------------------------------------------------------------------------
-
-HCMAX7219 HCMAX7219(ledCs);
-
-// INTERRUPT CONTROL -----------------------------------------------------------------------------------------------------------
-
-
 // input change to event conversion, called in loop or ISR
-void eventDecode(uint16_t rawPins) {
+void decodePinsAndEnqueueEvents(uint16_t rawPins) {
     // Do the decoding, and call eventOccurred with each event found...
     // Need to debounce buttons, not so bad on encoder button.
     stopwatchDebounce.debounce(rawPins & stopwatchInBit);
@@ -232,7 +229,7 @@ void secondTick() {
 void interruptHandler(void) {
   // Process any button/encoder state transitions...
   newPins = readPins();
-  eventDecode(newPins);
+  decodePinsAndEnqueueEvents(newPins);
   
   // Has a second passed since last interrupt?
   long currentMillis = millis();  
