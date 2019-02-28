@@ -270,7 +270,6 @@ void initialise() {
   Timer1.attachInterrupt(interruptHandler);
 }
 
-
 void processEvent(const Event e) {
   switch(e) {
     case NONE:
@@ -280,6 +279,7 @@ void processEvent(const Event e) {
 #ifdef DEBUG
       Serial.println("FLASH");
 #endif
+      // Sent only if there is something to flash..
       // TODO set LEDs indicated by ledsToFlash flashing
       // TODO set time components indicated by timeComponentsToFlash flashing
       break;
@@ -354,8 +354,7 @@ void processEvent(const Event e) {
       Serial.println("TICK");
 #endif
       currentState.onTick();
-      break;
-    
+      break;    
   }
 }
 
@@ -380,7 +379,8 @@ void flashLEDs(const int leds) {
 void displayTime() {
 static char out[9];
   sprintf(out, "%02d:%02d:%02d", hours, minutes, seconds);
-  // TODO display on LEDs  
+  HCMAX7219.print7Seg(out, 1);
+  HCMAX7219.Refresh();
 }
 
 void resetTime() {
@@ -424,6 +424,7 @@ bool tickTimeDown() {
 void flashTimeComponent(const int component) {
   timeComponentsToFlash = component;
   resetSecondTimerToNow();
+  
 }
 
 void incHours() {
