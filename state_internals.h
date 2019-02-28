@@ -270,6 +270,59 @@ void initialise() {
   Timer1.attachInterrupt(interruptHandler);
 }
 
+void displayTime() {
+static char out[9];
+
+  if (timeComponentsToFlash == NoFlashing || (!flashState)) {
+    sprintf(out, "%02d:%02d:%02d", hours, minutes, seconds);
+
+  } else {
+
+    // Precondition: some components needs to flash and flashState is true (flashing components need to be blank)
+    out[0] = '\0';
+    // 0123456789 <- characters in the out array
+    // 0          <- here's the null at end-of-string
+    if ((timeComponentsToFlash & HoursFlashing) == HoursFlashing) {
+      strcat(out, "  :");
+    } else {
+      // 0123456789
+      // 0
+      sprintf(out, "%02d:", hours);
+    }
+    
+    if ((timeComponentsToFlash & MinutesFlashing) == MinutesFlashing) {
+      strcat(out, "  :");
+    } else {
+      // 0123456789
+      // dd:0
+      sprintf(out + 3, "%02d:", minutes);
+    }
+
+    if ((timeComponentsToFlash & SecondsFlashing) == SecondsFlashing) {
+      strcat(out, "  ");
+    } else {
+      // 0123456789
+      // dd:dd:0
+      sprintf(out + 6, "%02d", seconds);
+    }
+    // 0123456789
+    // dd:dd:dd0
+  }
+  
+  HCMAX7219.print7Seg(out, 1);
+  HCMAX7219.Refresh();
+}
+
+// Precondition: ledsToFlash or timeComponentsToFlash are indicating something needs to flash
+void processFlash() {
+  if (ledsToFlash != NoLEDs) {
+    // TODO set LEDs indicated by ledsToFlash flashing
+  }
+  if (timeComponentsToFlash != NoFlashing) {
+    displayTime(); // which takes care of the flashing for us
+  }
+}
+
 void processEvent(const Event e) {
   switch(e) {
     case NONE:
@@ -280,8 +333,7 @@ void processEvent(const Event e) {
       Serial.println("FLASH");
 #endif
       // Sent only if there is something to flash..
-      // TODO set LEDs indicated by ledsToFlash flashing
-      // TODO set time components indicated by timeComponentsToFlash flashing
+      processFlash();
       break;
       
     case STOPWATCH_RELEASE:
@@ -374,13 +426,6 @@ void processNextEvent() {
 
 void flashLEDs(const int leds) {
   ledsToFlash = leds;
-}
-
-void displayTime() {
-static char out[9];
-  sprintf(out, "%02d:%02d:%02d", hours, minutes, seconds);
-  HCMAX7219.print7Seg(out, 1);
-  HCMAX7219.Refresh();
 }
 
 void resetTime() {
