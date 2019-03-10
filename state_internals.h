@@ -346,12 +346,13 @@ static char out[9];
 
 // Precondition: ledsToFlash or timeComponentsToFlash are indicating something needs to flash
 void processFlash() {
-  if (!flashState) {
-    HCMAX7219.Clear();
-    HCMAX7219.Refresh();
-    return;
-  }
   if (ledsToFlash != NoLEDs) {
+    if (!flashState) {
+      HCMAX7219.Clear();
+      HCMAX7219.Refresh();
+      return;
+    }
+    // flashState is true, show those LEDs 
     // TODO set LEDs indicated by ledsToFlash flashing
     char out[10];
     out[0]=' ';
@@ -373,6 +374,7 @@ void processFlash() {
     out[7] = '\0';
     HCMAX7219.print7Seg(out, 8);
     HCMAX7219.Refresh();
+    return;
   }
   if (timeComponentsToFlash != NoFlashing) {
     displayTime(); // which takes care of the flashing for us
