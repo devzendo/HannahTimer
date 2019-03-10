@@ -123,7 +123,7 @@ HCMAX7219 HCMAX7219(ledCs);
 // Debounce logic based on code by Jack Ganssle.
 const uint8_t checkMsec = 5;     // Read hardware every so many milliseconds
 const uint8_t pressMsec = 10;    // Stable time before registering pressed
-const uint8_t releaseMsec = 100; // Stable time before registering released
+const uint8_t releaseMsec = 20; // Stable time before registering released
 
 class Debouncer {
 public:
@@ -515,13 +515,13 @@ void tickTimeUp() {
 
 bool tickTimeDown() {
   seconds--;
-  if (seconds == -1) {
+  if (seconds < 0) {
     seconds = 59;
     minutes--;
-    if (minutes == -1) {
+    if (minutes < 0) {
       minutes = 59;
       hours--;
-      if (hours == -1) {
+      if (hours < 0) {
         hours = 23;
       }
     }
@@ -533,7 +533,6 @@ bool tickTimeDown() {
 void flashTimeComponent(const int component) {
   timeComponentsToFlash = component;
   resetSecondTimerToNow();
-  
 }
 
 void incHours() {
@@ -600,5 +599,11 @@ void stopTicking() {
 }
 
 void beep() {
-  // TODO 
+  for (int i=0; i<50; i++) {
+    displayTime();
+    delay(40);
+    HCMAX7219.Clear();
+    HCMAX7219.Refresh();
+    delay(40);
+  }
 }
