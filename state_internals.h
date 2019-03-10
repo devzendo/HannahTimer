@@ -121,12 +121,15 @@ HCMAX7219 HCMAX7219(ledCs);
 // DEBOUNCE CONTROL ------------------------------------------------------------------------------------------------------------
 
 // Debounce logic based on code by Jack Ganssle.
-const uint8_t checkMsec = 4;     // Read hardware every so many milliseconds
+const uint8_t checkMsec = 5;     // Read hardware every so many milliseconds
 const uint8_t pressMsec = 10;    // Stable time before registering pressed
 const uint8_t releaseMsec = 100; // Stable time before registering released
 
 class Debouncer {
 public:
+    Debouncer() {
+        debouncedKeyPress = true; // If using internal pullups, the initial state is true.
+    }
     // called every checkMsec.
     // The key state is +5v=released, 0v=pressed; there are pullup resistors.
     void debounce(bool rawPinState) {
@@ -136,12 +139,14 @@ public:
             // Set the timer which allows a change from current state
             resetTimer();
         } else {
-            // key has changed - wait for new state to become stable
-            debouncedKeyPress = rawPinState;
-            keyChanged = true;
-            keyReleased = debouncedKeyPress;
-            // And reset the timer
-            resetTimer();
+            if (--count == 0) {
+                // key has changed - wait for new state to become stable
+                debouncedKeyPress = rawPinState;
+                keyChanged = true;
+                keyReleased = debouncedKeyPress;
+                // And reset the timer
+                resetTimer();
+            }
         }
     }
 
@@ -292,7 +297,7 @@ void initialise() {
   
   // Interrupt handler
   resetSecondTimerToNow();
-  Timer1.initialize(10000); // Every 1/100th of a second.
+  Timer1.initialize(20000); // Every 1/200th of a second (interrupt every 5 milliseconds).
   Timer1.attachInterrupt(interruptHandler);
 }
 
