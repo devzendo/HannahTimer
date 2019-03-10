@@ -77,8 +77,10 @@ defineFifo(eventFifo, Event, 100)
 // Enqueue an event on the FIFO queue.
 static char zut[20];
 inline void eventOccurred(Event eventCode) {
+#ifdef DEBUGEVENT
     sprintf(zut, ">ev:0x%04X", eventCode);
     Serial.println(zut);
+#endif    
     if (!eventFifo.put(&eventCode)) {
         Serial.println("FIFO overrun");
     }
@@ -206,10 +208,10 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
         case 0:
             break;
         case 1:
-            eventOccurred(ANTICLOCKWISE);
+            eventOccurred(CLOCKWISE);
             break;
         case -1:
-            eventOccurred(CLOCKWISE);
+            eventOccurred(ANTICLOCKWISE);
             break;
     }
 }
@@ -241,9 +243,11 @@ void tobin(char *buf, int x) {
   buf[7] = ((x & 0x01) == 0x01) ? '1' : '0';
   buf[8] = '\0';
 }
+
 void interruptHandler(void) {
   // Process any button/encoder state transitions...
   newPins = readPins();
+#ifdef DEBUGPINS
   if (newPins != oldPins) {
     char out[10];
     tobin(out, newPins);
@@ -251,12 +255,14 @@ void interruptHandler(void) {
     HCMAX7219.print7Seg(out, 8);
     HCMAX7219.Refresh();
   }
+#endif
   decodePinsAndEnqueueEvents(newPins);
   oldPins = newPins;
   
   // Has a second passed since last interrupt?
   long currentMillis = millis();  
   if (abs(currentMillis - lastSecondTickMillis) > 1000) {
+    Serial.println("tick");
     secondTick();
     lastSecondTickMillis = currentMillis;
   }
@@ -285,7 +291,7 @@ void initialise() {
   
   // Interrupt handler
   resetSecondTimerToNow();
-  Timer1.initialize(100000); // Every 1/10th of a second.
+  Timer1.initialize(10000); // Every 1/100th of a second.
   Timer1.attachInterrupt(interruptHandler);
 }
 
@@ -439,6 +445,9 @@ void processNextEvent() {
   // If there any events on the FIFO queue that were pushed by the ISR, process them here in the main non-interrupt loop.
   Event event;
   if (eventFifo.get(&event)) {
+    //char buf[80];
+    //sprintf(buf, "Got an event 0x%04x in processNextEvent", event);
+    //Serial.println(buf);
     processEvent(event);
   }
 }
