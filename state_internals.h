@@ -15,7 +15,7 @@ const int timerIn = 5;     // PIND   x   --
 const int timerInBit = 0x20;
 const int goIn = 6;        // PIND  x    --
 const int goInBit = 0x40;
-const int setIn = 7;       // PIND x     -- // TODO REWIRE TO 7
+const int setIn = 7;       // PIND x     --
 const int setInBit = 0x80;
 
 
@@ -230,10 +230,29 @@ void secondTick() {
   }
 }
 
+void tobin(char *buf, int x) {
+  buf[0] = ((x & 0x80) == 0x80) ? '1' : '0';
+  buf[1] = ((x & 0x40) == 0x40) ? '1' : '0';
+  buf[2] = ((x & 0x20) == 0x20) ? '1' : '0';
+  buf[3] = ((x & 0x10) == 0x10) ? '1' : '0';
+  buf[4] = ((x & 0x08) == 0x08) ? '1' : '0';
+  buf[5] = ((x & 0x04) == 0x04) ? '1' : '0';
+  buf[6] = ((x & 0x02) == 0x02) ? '1' : '0';
+  buf[7] = ((x & 0x01) == 0x01) ? '1' : '0';
+  buf[8] = '\0';
+}
 void interruptHandler(void) {
   // Process any button/encoder state transitions...
   newPins = readPins();
+  if (newPins != oldPins) {
+    char out[10];
+    tobin(out, newPins);
+    Serial.println(out);
+    HCMAX7219.print7Seg(out, 8);
+    HCMAX7219.Refresh();
+  }
   decodePinsAndEnqueueEvents(newPins);
+  oldPins = newPins;
   
   // Has a second passed since last interrupt?
   long currentMillis = millis();  
@@ -257,13 +276,13 @@ void initialise() {
   pinMode(setIn, INPUT_PULLUP);
   pinMode(encRIn, INPUT_PULLUP);
   pinMode(encLIn, INPUT_PULLUP);
-  
+
   initialPins = oldPins = newPins = readPins();
 
   // 7-Segment LED...
   HCMAX7219.Init();
   HCMAX7219.Clear();
-
+  
   // Interrupt handler
   resetSecondTimerToNow();
   Timer1.initialize(100000); // Every 1/10th of a second.
@@ -309,7 +328,7 @@ static char out[9];
     // dd:dd:dd0
   }
   
-  HCMAX7219.print7Seg(out, 1);
+  HCMAX7219.print7Seg(out, 8);
   HCMAX7219.Refresh();
 }
 
