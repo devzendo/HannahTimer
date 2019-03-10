@@ -14,6 +14,7 @@ State *timer = &nothing;
 State *stopWatching = &nothing;
 State *stopWatchPaused = &nothing;
 State *timing = &nothing;
+State *timingPaused = &nothing;
 
 // States 
 int ascii = 1;
@@ -178,7 +179,7 @@ class Timing: public State {
   }
   
   void onGoRelease() {
-    setNextState(timer);
+    setNextState(timingPaused);
   }
 
   void onTick() {
@@ -188,6 +189,26 @@ class Timing: public State {
     }
   }
 };
+
+class TimingPaused: public State {
+  void enter() {
+    stopTicking();
+  }
+  
+  void onGoRelease() {
+    setNextState(timing);
+  }
+
+  void onStopWatchRelease() {
+    setNextState(stopWatch);
+  }
+
+  void onTimerRelease() {
+    resetTime();
+    setNextState(timer);
+  }
+};
+
 
 void setup() {
   Serial.begin(115200);
@@ -203,6 +224,7 @@ void setup() {
   stopWatchPaused = new StopWatchPaused();
   stopWatching = new StopWatching();
   timing = new Timing();
+  timingPaused = new TimingPaused();
   // and instances of other State subclasses...
 /*
   sprintf(buf,"chooseMode is 0x%08x", chooseMode);
