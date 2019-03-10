@@ -167,6 +167,7 @@ class Timer: public State {
   }
 
   void onGoRelease() {
+    flashTimeComponent(NoFlashing);
     setNextState(timing);
   }
 };
