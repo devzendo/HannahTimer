@@ -95,7 +95,7 @@ class NothingState: public State {
 
 // State machine management
 State nothing = NothingState();
-State currentState = nothing;
+State *currentState = &nothing;
 
 // TICK STATE MANAGEMENT -------------------------------------------------------------------------------------------------------
 
@@ -130,7 +130,6 @@ public:
     // called every checkMsec.
     // The key state is +5v=released, 0v=pressed; there are pullup resistors.
     void debounce(bool rawPinState) {
-        bool rawState;
         keyChanged = false;
         keyReleased = debouncedKeyPress;
         if (rawPinState == debouncedKeyPress) {
@@ -185,7 +184,7 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
     if (stopwatchDebounce.keyChanged) {
         eventOccurred(stopwatchDebounce.keyReleased? STOPWATCH_RELEASE : STOPWATCH_PRESS);
     }
-
+/*
     timerDebounce.debounce(rawPins & timerInBit);
     if (timerDebounce.keyChanged) {
         eventOccurred(timerDebounce.keyReleased? TIMER_RELEASE : TIMER_PRESS);
@@ -200,7 +199,7 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
     if (setDebounce.keyChanged) {
         eventOccurred(setDebounce.keyReleased? SET_RELEASE : SET_PRESS);
     }
-
+*/
     // rotary encoder....
     encoderValue = encoderValue << 2;
     encoderValue = encoderValue | ((rawPins & (encLInBit | encRInBit)));
@@ -262,7 +261,9 @@ void interruptHandler(void) {
   // Has a second passed since last interrupt?
   long currentMillis = millis();  
   if (abs(currentMillis - lastSecondTickMillis) > 1000) {
+#ifdef DEBUGTICK
     Serial.println("tick");
+#endif
     secondTick();
     lastSecondTickMillis = currentMillis;
   }
@@ -342,6 +343,8 @@ static char out[9];
 void processFlash() {
   if (ledsToFlash != NoLEDs) {
     // TODO set LEDs indicated by ledsToFlash flashing
+    char out[10];
+    
   }
   if (timeComponentsToFlash != NoFlashing) {
     displayTime(); // which takes care of the flashing for us
@@ -365,80 +368,83 @@ void processEvent(const Event e) {
 #ifdef DEBUG
       Serial.println("STOPWATCH_RELEASE");
 #endif
-      currentState.onStopWatchRelease();
+      currentState->onStopWatchRelease();
       break;
     case STOPWATCH_PRESS:
 #ifdef DEBUG
       Serial.println("STOPWATCH_PRESS");
 #endif
-      currentState.onStopWatchPress();
+      currentState->onStopWatchPress();
       break;
 
     case TIMER_RELEASE:
 #ifdef DEBUG
       Serial.println("TIMER_RELEASE");
 #endif
-      currentState.onTimerRelease();
+      currentState->onTimerRelease();
       break;
     case TIMER_PRESS:
 #ifdef DEBUG
       Serial.println("TIMER_PRESS");
 #endif
-      currentState.onTimerPress();
+      currentState->onTimerPress();
       break;
 
     case GO_RELEASE:
 #ifdef DEBUG
       Serial.println("GO_RELEASE");
 #endif
-      currentState.onGoRelease();
+      currentState->onGoRelease();
       break;
     case GO_PRESS:
 #ifdef DEBUG
       Serial.println("GO_PRESS");
 #endif
-      currentState.onGoPress();
+      currentState->onGoPress();
       break;
 
     case SET_RELEASE:
 #ifdef DEBUG
       Serial.println("SET_RELEASE");
 #endif
-      currentState.onSetRelease();
+      currentState->onSetRelease();
       break;
     case SET_PRESS:
 #ifdef DEBUG
       Serial.println("SET_PRESS");
 #endif
-      currentState.onSetPress();
+      currentState->onSetPress();
       break;
 
     case CLOCKWISE:
 #ifdef DEBUG
       Serial.println("CLOCKWISE");
 #endif
-      currentState.onClockwise();
+      currentState->onClockwise();
       break;
     case ANTICLOCKWISE:
 #ifdef DEBUG
       Serial.println("ANTICLOCKWISE");
 #endif
-      currentState.onAntiClockwise();
+      currentState->onAntiClockwise();
       break;
       
     case TICK:
 #ifdef DEBUG
       Serial.println("TICK");
 #endif
-      currentState.onTick();
+      currentState->onTick();
       break;    
   }
 }
 
-void setNextState(State &newState) {
-  currentState.exit();
+void setNextState(State *newState) {
+  char buf[100];
+  sprintf(buf, "changing state. old state %08x new state %08x", currentState, newState);
+  Serial.println(buf);
+  currentState->exit();
   currentState = newState;
-  currentState.enter();
+  currentState->enter();
 }
 
 void processNextEvent() {
