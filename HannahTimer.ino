@@ -11,6 +11,9 @@
 State *chooseMode = &nothing;
 State *stopWatch = &nothing;
 State *timer = &nothing;
+State *stopWatching = &nothing;
+State *stopWatchPaused = &nothing;
+State *timing = &nothing;
 
 // States 
 int ascii = 1;
@@ -35,7 +38,7 @@ class DigitScroll: public State {
     HCMAX7219.print7Seg(buf, 8);
     HCMAX7219.Refresh();
   }
-}
+};
 
 class ChooseMode: public State {
   void enter() {
@@ -61,11 +64,43 @@ class StopWatch: public State {
   }
   
   void onGoRelease() {
-    startTicking();
     // change to a new StopWatching state that 'runs' the watch... 
     // might be easier than doing it all in this state... 
     // why? 
     // consider how you'd handle stopping the timer by pressing 'Go' again..
+    setNextState(stopWatching);
+  }
+};
+
+class StopWatching: public State {
+  void enter() {
+    startTicking();
+  }
+  
+  void onGoRelease() {
+    setNextState(stopWatchPaused);
+  }
+
+  void onTick() {
+    tickTimeUp();
+  }
+};
+
+class StopWatchPaused: public State {
+  void enter() {
+    stopTicking();
+  }
+  
+  void onGoRelease() {
+    setNextState(stopWatching);
+  }
+
+  void onStopWatchRelease() {
+    setNextState(stopWatch);
+  }
+
+  void onTimerRelease() {
+    setNextState(timer);
   }
 };
 
@@ -98,12 +133,60 @@ class Timer: public State {
   }
   
   void onClockwise() {
+    switch (flashingTimeComponent) {
+      case SecondsFlashing:
+        incSeconds();
+        break;
+      case MinutesFlashing:
+        incMinutes();
+        break;
+      case HoursFlashing:
+        incHours();
+        break;
+      default:
+        // nothing
+        break;
+    }
   }
   
   void onAntiClockwise() {
+    switch (flashingTimeComponent) {
+      case SecondsFlashing:
+        decSeconds();
+        break;
+      case MinutesFlashing:
+        decMinutes();
+        break;
+      case HoursFlashing:
+        decHours();
+        break;
+      default:
+        // nothing
+        break;
+    }
+  }
+
+  void onGoRelease() {
+    setNextState(timing);
   }
 };
 
+class Timing: public State {
+  void enter() {
+    startTicking();
+  }
+  
+  void onGoRelease() {
+    setNextState(timer);
+  }
+
+  void onTick() {
+    if (tickTimeDown()) {
+      beep();
+      setNextState(chooseMode);
+    }
+  }
+};
 
 void setup() {
   Serial.begin(115200);
@@ -116,6 +199,9 @@ void setup() {
   chooseMode = new ChooseMode();
   stopWatch = new StopWatch();
   timer = new Timer();
+  stopWatchPaused = new StopWatchPaused();
+  stopWatching = new StopWatching();
+  timing = new Timing();
   // and instances of other State subclasses...
 /*
   sprintf(buf,"chooseMode is 0x%08x", chooseMode);
