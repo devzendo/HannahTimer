@@ -189,7 +189,7 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
     if (stopwatchDebounce.keyChanged) {
         eventOccurred(stopwatchDebounce.keyReleased? STOPWATCH_RELEASE : STOPWATCH_PRESS);
     }
-/*
+
     timerDebounce.debounce(rawPins & timerInBit);
     if (timerDebounce.keyChanged) {
         eventOccurred(timerDebounce.keyReleased? TIMER_RELEASE : TIMER_PRESS);
@@ -204,7 +204,7 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
     if (setDebounce.keyChanged) {
         eventOccurred(setDebounce.keyReleased? SET_RELEASE : SET_PRESS);
     }
-*/
+
     // rotary encoder....
     encoderValue = encoderValue << 2;
     encoderValue = encoderValue | ((rawPins & (encLInBit | encRInBit)));
@@ -346,10 +346,33 @@ static char out[9];
 
 // Precondition: ledsToFlash or timeComponentsToFlash are indicating something needs to flash
 void processFlash() {
+  if (!flashState) {
+    HCMAX7219.Clear();
+    HCMAX7219.Refresh();
+    return;
+  }
   if (ledsToFlash != NoLEDs) {
     // TODO set LEDs indicated by ledsToFlash flashing
     char out[10];
-    
+    out[0]=' ';
+    if (ledsToFlash & StopWatchLED == StopWatchLED) {
+      out[1] = 39;
+    } else if (ledsToFlash & GoLED == GoLED) {
+      out[1] = 27;
+    } else {
+      out[1] = ' ';
+    }
+    out[2] = out[3] = out[4] = out[5] = ' ';
+    if (ledsToFlash & TimerLED == TimerLED) {
+      out[6] = 39;
+    } else if (ledsToFlash & SetLED == SetLED) {
+      out[6] = 27;
+    } else {
+      out[6] = ' ';
+    }
+    out[7] = '\0';
+    HCMAX7219.print7Seg(out, 8);
+    HCMAX7219.Refresh();
   }
   if (timeComponentsToFlash != NoFlashing) {
     displayTime(); // which takes care of the flashing for us

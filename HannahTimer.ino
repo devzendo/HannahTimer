@@ -16,22 +16,7 @@ State *timer = &nothing;
 int ascii = 1;
 char buf[80];
 
-class ChooseMode: public State {
-  void enter() {
-    flashLEDs(StopWatchLED | TimerLED);
-  }
-
-  void exit() {
-    flashLEDs(NoLEDs);
-  }
-  
-  void onStopWatchRelease() {
-    setNextState(stopWatch);
-  }
-  
-  void onTimerRelease() {
-    setNextState(timer);
-  }
+class DigitScroll: public State {
   void onClockwise() {
     ascii++;
     if (ascii == 256) {
@@ -49,6 +34,24 @@ class ChooseMode: public State {
     sprintf(buf, "AS %03d %c", ascii, ascii);
     HCMAX7219.print7Seg(buf, 8);
     HCMAX7219.Refresh();
+  }
+}
+
+class ChooseMode: public State {
+  void enter() {
+    flashLEDs(StopWatchLED | TimerLED);
+  }
+
+  void exit() {
+    flashLEDs(NoLEDs);
+  }
+  
+  void onStopWatchRelease() {
+    setNextState(stopWatch);
+  }
+  
+  void onTimerRelease() {
+    setNextState(timer);
   }
 };
 
@@ -114,6 +117,7 @@ void setup() {
   stopWatch = new StopWatch();
   timer = new Timer();
   // and instances of other State subclasses...
+/*
   sprintf(buf,"chooseMode is 0x%08x", chooseMode);
   Serial.println(buf);
   sprintf(buf,"stopWatch is 0x%08x", stopWatch);
@@ -122,7 +126,7 @@ void setup() {
   Serial.println(buf);
   sprintf(buf,"nothing is 0x%08x", nothing);
   Serial.println(buf);
-
+*/
   setNextState(chooseMode);
 }
 
