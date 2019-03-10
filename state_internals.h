@@ -174,6 +174,43 @@ Debouncer timerDebounce;
 Debouncer setDebounce;
 Debouncer goDebounce;
 
+class Damper {
+public:
+    Damper(int tickDelay) {
+        delayLimit = tickDelay;
+        reset();
+    }
+
+    void reset() {
+        delay = delayLimit >> 1;
+    }
+    
+    bool left() {
+        if (delay == 0) {
+            delay = delayLimit;
+            return true;
+        } else {
+            delay--;
+            return false;
+        }
+    }
+    
+    bool right() {
+        if (delay == delayLimit) {
+            delay = 0;
+            return true;
+        } else {
+            delay++;
+            return false;
+        }
+    }
+private:
+    int delayLimit;
+    int delay;
+};
+
+Damper damper(2);
+
 // INTERRUPT CONTROL -----------------------------------------------------------------------------------------------------------
 
 static int8_t encoderLookupTable[] = {
@@ -202,6 +239,7 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
 
     setDebounce.debounce(rawPins & setInBit);
     if (setDebounce.keyChanged) {
+        damper.reset();
         eventOccurred(setDebounce.keyReleased? SET_RELEASE : SET_PRESS);
     }
 
@@ -212,10 +250,14 @@ void decodePinsAndEnqueueEvents(uint16_t rawPins) {
         case 0:
             break;
         case 1:
-            eventOccurred(CLOCKWISE);
+            if (damper.right()) {
+              eventOccurred(CLOCKWISE);
+            }
             break;
         case -1:
-            eventOccurred(ANTICLOCKWISE);
+            if (damper.left()) {
+              eventOccurred(ANTICLOCKWISE);
+            }
             break;
     }
 }
@@ -580,7 +622,7 @@ void incSeconds() {
 
 void decSeconds() {
   if (seconds > 0) {
-    seconds++;
+    seconds--;
     displayTime();
   }
 }
@@ -599,11 +641,11 @@ void stopTicking() {
 }
 
 void beep() {
-  for (int i=0; i<50; i++) {
+  for (int i=0; i<40; i++) {
     displayTime();
-    delay(40);
+    delay(80);
     HCMAX7219.Clear();
     HCMAX7219.Refresh();
-    delay(40);
+    delay(80);
   }
 }
